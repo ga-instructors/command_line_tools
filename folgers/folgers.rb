@@ -102,13 +102,12 @@ def make_new_exercise
   Dir.mkdir("#{exercise_directory}/starters")
 
   readme_string = <<-EOS
-  \##{title}
+\##{title}
 
-  \#\#\#Overview:
+\#\#\#Overview:
 
-  \#\#\#Spec:
-
-  EOS
+\#\#\#Spec:
+EOS
 
   readme = File.open([
       exercise_directory,
