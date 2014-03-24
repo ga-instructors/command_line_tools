@@ -31,6 +31,22 @@ Dir.mkdir("#{exercise_directory}/solutions")
 # make a starters dir
 Dir.mkdir("#{exercise_directory}/starters")
 
+readme_string = <<-EOS
+\##{title}
+
+\#\#\#Overview:
+
+\#\#\#Spec:
+
+EOS
+
+readme = File.open([
+    exercise_directory,
+    "/README.md"
+  ].join(""),"w" )
+readme.puts readme_string
+readme.close
+
 new_meta_file_path = [ 
     exercise_directory,
     "/meta.json"
