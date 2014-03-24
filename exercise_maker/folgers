@@ -1,8 +1,6 @@
-#!/usr/bin/env ruby
-
 require 'json'
 
-puts "what is the path of your exercises directory?:"
+puts "what is the path of your exercises directory (NO RELATIVE PATHS)?:"
 target_directory = gets.chomp
 id = Time.now.to_i
 puts "enter the title: "
@@ -22,7 +20,7 @@ end
 
 target_path = "#{target_directory}#{target_directory[-1] != '/' ? '/' : ''}"
 
-exercise_directory = "./#{target_path}/ex_#{id}"
+exercise_directory = "#{target_path}/ex_#{id}"
 
 # make EX directory 
 Dir.mkdir(exercise_directory)
