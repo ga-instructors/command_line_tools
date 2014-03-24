@@ -1,1 +1,3 @@
-../exercise_maker/folgers
+#!/usr/bin/env ruby
+
+require_relative '../folgers/folgers.rb'
