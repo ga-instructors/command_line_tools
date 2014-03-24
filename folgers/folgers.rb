@@ -2,28 +2,60 @@ require 'json'
 
 def main_menu
   puts <<-EOS
-    Welcome To Folgers!
+====================================
+====================================
+====================================
+====================================
+         {
+      {   }
+       }_{ __{
+    .-{   }   }-.
+   (   }     {   )
+   |`-.._____..-'|
+   |             ;--\.
+   |            \(__  \
+   |             | )  )
+   |             |/  /
+   |             /  /
+   |            \(  /
+   \\             y'
+    `-.._____..-'
+====================================
+====================================
+====================================
+====================================
+                        
+    What would you like to do? 
 
-    What would you like to do?
+    1. make new exercise       
+    2. quit                    
 
-    1. make new exercise 
-    10. quit
-
-  EOS
+EOS
   choice = gets.chomp.to_i
   case choice
     when 1
       make_new_exercise
-      
-      puts "Created Successfully!"
       system("clear")
+      puts <<-EOS
+================================
+===== Created Successfully! ====
+================================
+EOS
       main_menu
-    when 10
+    when 2
       system("clear")
-      puts "Goodbye!"
+      puts <<-EOS
+================================
+========== GOODBYE! ============
+================================
+EOS
     else 
       system("clear")
-      puts "======== Please enter a valid choice! =========="
+      puts <<-EOS
+======================================
+===== PLEASE ENTER A VALID OPTION ====
+======================================
+EOS
       main_menu
   end
 end
@@ -36,10 +68,10 @@ def make_new_exercise
   title = gets.chomp
   puts "enter the language: "
   language = gets.chomp
-  puts "enter the author(s) (i.e. firstname_lastname) separated by spaces: "
-  authors = gets.chomp.split(" ")
+  puts "enter the author(s) (i.e. firstname lastname separated by commas): "
+  authors = gets.chomp.split(/\,\s+/)
   puts "enter tags (separated by spaces): "
-  tags = gets.chomp.split(" ")
+  tags = gets.chomp.split(/\s+/)
   puts "enter difficulty level (1-10, 10 being hardest): "
   level = gets.chomp.to_i
 
