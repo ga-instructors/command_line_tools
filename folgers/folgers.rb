@@ -6,20 +6,20 @@ def main_menu
 ====================================
 ====================================
 ====================================
-         {
-      {   }
-       }_{ __{
-    .-{   }   }-.
-   (   }     {   )
-   |`-.._____..-'|
-   |             ;--\.
-   |            \(__  \
-   |             | )  )
-   |             |/  /
-   |             /  /
-   |            \(  /
-   \\             y'
-    `-.._____..-'
+       {
+    {   }
+     }_{ __{
+  .-{   }   }-.
+ (   }     {   )
+ |`-.._____..-'|
+ |             ;--.
+ |             (__  \
+ |             | )  )
+ |             |/  /
+ |             /  /
+ |             (  /
+ \             y'
+  `-.._____..-'
 ====================================
 ====================================
 ====================================
@@ -61,8 +61,10 @@ EOS
 end
 
 def make_new_exercise
-  puts "what is the path of your exercises directory (NO RELATIVE PATHS)?:"
-  target_directory = gets.chomp
+  unless $target_directory
+    puts "what is the path of your exercises directory (NO RELATIVE PATHS)?:"
+    $target_directory = gets.chomp
+  end
   id = Time.now.to_i
   puts "enter the title: "
   title = gets.chomp
@@ -75,11 +77,11 @@ def make_new_exercise
   puts "enter difficulty level (1-10, 10 being hardest): "
   level = gets.chomp.to_i
 
-  if Dir[target_directory] == []
-    Dir.mkdir(target_directory)
+  if Dir[$target_directory] == []
+    Dir.mkdir($target_directory)
   end
 
-  target_path = "#{target_directory}#{target_directory[-1] != '/' ? '/' : ''}"
+  target_path = "#{$target_directory}#{$target_directory[-1] != '/' ? '/' : ''}"
 
   exercise_directory = "#{target_path}/ex_#{id}"
 
