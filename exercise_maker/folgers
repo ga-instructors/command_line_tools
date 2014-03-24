@@ -13,6 +13,8 @@ puts "enter the author(s) (i.e. firstname_lastname) separated by spaces: "
 authors = gets.chomp.split(" ")
 puts "enter tags (separated by spaces): "
 tags = gets.chomp.split(" ")
+puts "enter difficulty level (1-10, 10 being hardest): "
+level = gets.chomp.to_i
 
 if Dir[target_directory] == []
   Dir.mkdir(target_directory)
@@ -43,7 +45,8 @@ meta_hash = {
   title: title,
   language: language,
   authors: authors,
-  tags: tags
+  tags: tags,
+  level: level
 }
 
 f.puts JSON.pretty_generate(meta_hash)
