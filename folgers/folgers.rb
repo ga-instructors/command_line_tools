@@ -225,7 +225,7 @@ def get_target_path
 end
 
 def get_target_path_from_config
-  JSON.parse(IO.read(File.expand_path("~/.wdi/config.json")))["class_repos"]["current"]
+  JSON.parse(IO.read(File.expand_path("~/.wdi/config.json")))["instructor_repos"]["current"]
 end
 
 def get_attribute_of_exercise
