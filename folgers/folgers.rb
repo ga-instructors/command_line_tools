@@ -1,6 +1,22 @@
 require 'json'
 require 'pry'
 
+def start
+  option = ARGV.shift
+  if option.nil?
+    main_menu
+  else
+    puts "You chose: #{option}"
+    if (option == "g" || option == "generate")
+      puts "Made: "
+      puts make_new(ARGV.shift)
+    else
+      prompt_user_with("Invalid Input!")
+    end
+      
+  end
+end
+
 def main_menu
   puts <<-EOS
 
@@ -129,6 +145,46 @@ EOS
   f.puts JSON.pretty_generate(meta_hash)
 
   f.close
+end
+
+def make_new(resource)
+
+  # TODO: support more types of resources
+  return false if resource != "meta"
+
+  $target_path = Dir.pwd
+  
+  id = Time.now.to_i
+
+  new_meta_file_path = [ 
+      $target_path,
+      "/meta.json"
+      ].join("")
+
+  f = File.open(new_meta_file_path, "w")
+
+  # TODO: turn the building of this hash into its own function
+  meta_hash = {}
+  meta_hash["id"] = id
+
+  while !ARGV.empty? 
+    key_val_string = ARGV.shift
+    key_val_array = key_val_string.split(":")
+    key = key_val_array[0]
+    value = key_val_array[1]
+    collection_keys = ["tags", "contributors", "languages"]
+    if collection_keys.include? key 
+      meta_hash[key] = value.split(",")
+    else 
+      meta_hash[key] = value
+    end
+  end
+
+  # binding.pry
+  f.puts JSON.pretty_generate(meta_hash)
+
+  f.close
+  return meta_hash
 end
 
 def search_for_exercise
@@ -273,4 +329,4 @@ def prompt_user_with(message)
   EOS
 end
 
-main_menu
+start
