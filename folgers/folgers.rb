@@ -97,8 +97,12 @@ def make_new_exercise
   authors = gets.chomp.split(/\,\s+/)
   puts "enter tags (separated by spaces): "
   tags = gets.chomp.split(/\s+/)
-  puts "enter difficulty level (1-10, 10 being hardest): "
-  level = gets.chomp.to_i
+  # puts "enter difficulty level (1-10, 10 being hardest): "
+  # level = gets.chomp.to_i
+  puts "enter the unit number (i.e. 3.14): "
+  unit = gets.chomp
+  puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
+  length = gets.chomp
 
   exercise_directory = "#{$target_path}/ex_#{id}"
 
@@ -139,12 +143,15 @@ EOS
     language: language,
     authors: authors,
     tags: tags,
-    level: level
+    unit: unit,
+    length: length
   }
 
   f.puts JSON.pretty_generate(meta_hash)
 
   f.close
+
+  generate_index_file
 end
 
 def make_new(resource)
@@ -274,6 +281,9 @@ def get_attribute_of_exercise
       3. tags
       4. authors
       5. level
+      6. length
+      7. unit
+      8. lesson_name
   EOS
   choice = gets.chomp.to_i
   case choice
@@ -287,6 +297,12 @@ def get_attribute_of_exercise
     attribute = :authors
   when 5
     attribute = :level
+  when 6
+    attribute = :length
+  when 7
+    attribute = :unit
+  when 8
+    attribute = :lesson_name
   else
     prompt_user_with("Please enter valid attribute!")
     attribute = get_attribute_of_exercise
