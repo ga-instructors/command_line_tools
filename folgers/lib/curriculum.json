@@ -1,0 +1,1348 @@
+{
+   
+   "primary":true,
+   "units":[
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...navigate through their computers using keyboard shortcuts",
+               "name":"OS",
+               "number":0.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...type at least 40 wpm, 25 with special characters",
+               "name":"Typing",
+               "number":0.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...perform basic command-line file/folder operations and navigation",
+               "name":"Command Line Basics",
+               "number":0.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain major concepts and key phrases in web development",
+               "name":"Internet Terminology",
+               "number":0.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...scaffold and style a basic static web page",
+               "name":"HTML + CSS",
+               "number":0.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...use ruby as a command-line computer language, and create variables, loops, conditions, and methods",
+               "name":"Programming Basics with Ruby",
+               "number":0.6
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...initialize a local git repository and push commited code to Github",
+               "name":"Git Basics",
+               "number":0.7
+            }
+         ],
+         "name":"Prework",
+         "number":0
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...enter the first day of class with all the necessary software installed and environment properly configured on their laptop",
+               "name":"\"Installfest\"",
+               "number":1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain the course structure, general expectations of the course, and established classroom rules",
+               "name":"Intro and Class Culture",
+               "number":1.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...configure a local linux-based environment to contain custom aliases and environment variables",
+               "name":"Environment Configuration",
+               "number":1.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...use git on the command line to commit, push, merge, and create a branch",
+               "name":"Git & Github",
+               "number":1.3
+            }
+         ],
+         "name":"Intro to Development",
+         "number":1
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand the different basic data types and how work with them to discern when to use the right one",
+               "name":"Data Types",
+               "number":2.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand boolean values and conditionally perform an operation",
+               "name":"Conditions",
+               "number":2.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...use a loop to repeat an operation or action",
+               "name":"Loops",
+               "number":2.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...write reusable code with a method that accepts none, one, or many arguments, performs an operation, and returns an expected data type",
+               "name":"Methods & Arguments",
+               "number":2.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...store and retrieve multiple pieces of data in an ordered list",
+               "name":"Arrays",
+               "number":2.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand the benefits of using a symbol over a string in particular scenarios",
+               "name":"Symbols",
+               "number":2.6
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...store and retrieve multiple pieces of data in an unordered list as a set of key-value pairs",
+               "name":"Hashes",
+               "number":2.7
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":null,
+               "name":"Blocks, Procs, and Lambdas",
+               "number":2.8
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...identify and use enumeration methods to loop through basic data types",
+               "name":"Enumeration",
+               "number":2.9
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...use principles of object-oriented programming to write and instantiate an object",
+               "name":"Objects and Classes",
+               "number":2.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...write a class that extends from an existing class with additional functionality",
+               "name":"Object inheritance",
+               "number":2.11
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create reusable code that can be applied to multiple classes",
+               "name":"Modules",
+               "number":2.12
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"... explore an object using additional programming in pry",
+               "name":"Debugging with Pry",
+               "number":2.13
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...manage errors in programs and handle exceptions to provide valuable debugging information",
+               "name":"Exceptions",
+               "number":2.14
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...use multiple files in a program to organize code",
+               "name":"'require' and Multi-file Projects",
+               "number":2.15
+            }
+         ],
+         "name":"Introduction to Programming with Fundamental Ruby",
+         "number":2
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain what happens behind the scenes when a user types a web address into their browser and a webpage is displayed",
+               "name":"What is the Internet?",
+               "number":3.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...build a basic web server that responds to a request",
+               "name":"Beginning Sinatra",
+               "number":3.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...respond to a GET request with the value of a given URL parameter",
+               "name":"HTTP Requests, Responses, and Parameters",
+               "number":3.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...construct web templates using the basic elements of HTML",
+               "name":"HTML",
+               "number":3.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create dynamic templates by embeding ruby code in HTML with the use of ERB templating",
+               "name":"HTML Templating with ERB",
+               "number":3.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...submit data to a web server using an HTML form and a POST request",
+               "name":"HTML Forms and POST",
+               "number":3.6
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...persist visitor-specific data between web requests",
+               "name":"Sessions + Cookies",
+               "number":3.7
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...save data to a local file, and retrieve it later",
+               "name":"Data Persistence with File I/O",
+               "number":3.8
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...apply CSS to HTML pages to add style and change formatting, spacing, and enhanced visual structure",
+               "name":"HTML + CSS",
+               "number":3.9
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand the various methodologies for creating layouts with positioning and floats",
+               "name":"CSS Positioning",
+               "number":3.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...expand user experience with :hover styles, and implement an image sprite",
+               "name":"CSS UX + Sprites",
+               "number":3.11
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create a responsive design for different resolutions of devices using responsive layout techniques and CSS media queries",
+               "name":"Responsive Design Patterns",
+               "number":3.12
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...identify and explain the general purpose of HTML 5 layout and media elements",
+               "name":"HTML5 Elements",
+               "number":3.13
+            }
+         ],
+         "name":"Introduction to the Web and HTML + CSS",
+         "number":3
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create a database, database table, and perform basic INSERT, SELECT, UPDATE, and DELETE commands",
+               "name":"Basics of SQL",
+               "number":4.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain the usage of a database in a dynamic web-based application, and how and when to grab necessary information using SQL",
+               "name":"SQL in a Web App",
+               "number":4.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand the importance of a well-planned data layer, and architect a basic relationship between two or more data models",
+               "name":"Architecting a Database Schema",
+               "number":4.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...extract data from related tables using JOIN queries",
+               "name":"SQL Joins",
+               "number":4.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...implement the ActiveRecord gem to save, read, update, and delete data from a database",
+               "name":"ActiveRecord and CRUD Operations",
+               "number":4.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...establish a 1:many (has_many | belongs_to) relationship with AR to save and retrieve related data",
+               "name":"ActiveRecord with Multiple Models (1:many Relationships)",
+               "number":4.6
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...establish a many:many (has_many_belongs_to) relationship with AR to save and retrieve related data",
+               "name":"ActiveRecord many:many Relationships",
+               "number":4.7
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...establish a many:many with a joiner model (has_many :through) to save additional data with the relationship",
+               "name":"ActiveRecord many:many w/ \"through\" Model",
+               "number":4.8
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand the pros and cons of a database index, and establish a foreign key relationship",
+               "name":"SQL Indexes and Foreign Keys",
+               "number":4.9
+            }
+         ],
+         "name":"Databases",
+         "number":4
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...describe how an MVC system works by identifying the key elements, their responsibilities, and how they work together",
+               "name":"MVC Architecture",
+               "number":5.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create a new Rails project, navigate to the important folders, and identify key configuration files",
+               "name":"Intro to Rails",
+               "number":5.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create routes that respond to POST and GET requests, and understand the concepts of RESTful routing",
+               "name":"Routing in Rails",
+               "number":5.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create routes that implement a variable-named parameter to generate dynamic URLs",
+               "name":"Routing Parameters in Rails",
+               "number":5.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...write controllers in an organized way that demonstrates knowledge of routing, templating, parameters, and request/response flow",
+               "name":"Rails Controllers",
+               "number":5.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...diagram/describe the hierarchy of view template files (layout -> view -> partial), and create view templates that utilize partials and maintain proper data flow",
+               "name":"Rails Views and Layouts",
+               "number":5.6
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...diagram and code a model layer to a Rails app with relationships, and use basic built-in CRUD operations",
+               "name":"Rails Models",
+               "number":5.7
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...replace common HTML tags with Rails helpers to avoid hard-coded paths and form elements",
+               "name":"Rails View and Form Helpers",
+               "number":5.8
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...properly validate incoming data by type, length, and presence in a Rails app at the model level",
+               "name":"Rails Model Validation",
+               "number":5.9
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...specify commonly-used queries which can be referenced as method calls on the association objects or models",
+               "name":"Rails Model Scope",
+               "number":5.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...establish model relationships in Rails using ActiveRecord (1:many, many:many, many:many w/ \"through\" model)",
+               "name":"ActiveRecord Relationships in Rails",
+               "number":5.11
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create a polymorphic relationship of one model to two related models",
+               "name":"Polymorphism",
+               "number":5.12
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...establish a self-referencing model relationship",
+               "name":"Self-joining Relationships",
+               "number":5.13
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create an ActiveRecord model that extends from an existing model, and store that model in a relational database",
+               "name":"Single-table Inheritance in Rails",
+               "number":5.14
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...add a Ruby gem to a Rails project",
+               "name":"Gemfile + Bundler",
+               "number":5.13
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...build a proper workflow for user authentication, including account creation, log in, log out, error messages, encryption, and password recovery",
+               "name":"User Authentication in Rails",
+               "number":5.14
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create a different experience for logged-in users based on permission level or user \"role\"",
+               "name":"Managing User Roles",
+               "number":5.15
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...build a rake task that leverages Rails models, etc. to perform a periodic or one-off task",
+               "name":"Rake Tasks",
+               "number":5.16
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...correctly access asset files, and maintain control over the concatenation and minification of JS and CSS files",
+               "name":"Rails Asset Pipeline with Images, CSS, and JS Files",
+               "number":5.17
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create a route that responds to one or more dynamic \"slugs\"",
+               "name":"Rails Routing Constraints",
+               "number":5.18
+            }
+         ],
+         "name":"MVC and Rails",
+         "number":5
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "name":"Testing in Development",
+         "number":6
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...describe what an API is and how they are useful",
+               "name":"What is an API?",
+               "number":7.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...simulate a web request to retrieve data",
+               "name":"CURL and Remote Data",
+               "number":7.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...connect to and retrieve information from an API, and obtain any necessary credentials for basic authentication",
+               "name":"API Authentication and Communication",
+               "number":7.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...identify and implement ruby gems to ease API communications in a ruby or Rails project",
+               "name":"API Gems",
+               "number":7.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...properly communicate with an Oauth-authenticated API",
+               "name":"APIS and OAuth",
+               "number":7.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...capture specific data from a rendered web page using back-end technology",
+               "name":"Scraping",
+               "number":7.6
+            }
+         ],
+         "name":"Server-side APIs",
+         "number":7
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand the timeline and environment in which JavaScript was created, which may help understand some of the nuances and \"quirks\" of the language",
+               "name":"History of Javascript (JS)",
+               "number":8.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand the different basic data types in JavaScript, and the use of \"var\"",
+               "name":"JS Syntax + Data Types",
+               "number":8.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...understand boolean values and conditionally perform an operation",
+               "name":"JS Conditions",
+               "number":8.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...use while, for, and for-in loops to repeat an operation or action",
+               "name":"JS Loops",
+               "number":8.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...write reusable code with a method that accepts none, one, or many arguments, performs an operation, and returns an expected data type",
+               "name":"JS Functions",
+               "number":8.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...describe variable scope in JavaScript, particularly as it pertains to functions and global scope",
+               "name":"JS Variable Scope",
+               "number":8.6
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...correctly define and manipulate a JavaScript object, and describe the word \"this\" and how it changes based on object context",
+               "name":"JS Objects and \"this\"",
+               "number":8.7
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...write code that is executed after a given amount of time",
+               "name":"JS Timers",
+               "number":8.8
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...write in-line functions that are not explicitly named,",
+               "name":"JS Anonymous Functions",
+               "number":8.9
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...write a new or modify an existing attribute or function on an object's prototype",
+               "name":"JS Prototype",
+               "number":8.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create an object that inherits from another object",
+               "name":"JS Prototypal Inheritance",
+               "number":8.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...demonstrate the referencing of variable defined within a function, and an inner function refering to local variables of the outer function",
+               "name":"JS Closures",
+               "number":8.11
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain what it means to have a partially applied function and how it is useful, and demonstrate the concept with code",
+               "name":"JS Partially Applied Functions",
+               "number":8.12
+            }
+         ],
+         "name":"Fundamental JavaScript",
+         "number":8
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...describe how the browser and JavaScript work together",
+               "name":"What is the DOM?",
+               "number":9.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...select and manipulate DOM elements with JavaScript",
+               "name":"DOM Manipulation with JS",
+               "number":9.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create an automated continuous and/or repeated manipulation on a DOM element",
+               "name":"JS Animations",
+               "number":9.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...write JavaScript that captures a user's interaction with the browser and responds visually",
+               "name":"Event-driven JS",
+               "number":9.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...properly validate a form using JavaScript before the form is allowed to submit by testing the presence, length, and data type of each input's contents",
+               "name":"JS Form Validation",
+               "number":9.5
+            }
+         ],
+         "name":"JavaScript and the DOM",
+         "number":9
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain what a JavaScript library is, how to include one, and how it expands functionality",
+               "name":"What is a JS Library?",
+               "number":10.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...include an external JS library and use it effectively according to documentation",
+               "name":"Underscore.js and Ruby-like JS",
+               "number":10.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...use jQuery instead of pure JavaScript to select elements and manipulate their attributes and css",
+               "name":"jQuery Syntax + DOM Manipulation",
+               "number":10.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create jQuery style event listeners to respond to user interactions, and understand the scope of \"this\"",
+               "name":"jQuery Events",
+               "number":10.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...create an automated continuous and/or repeated manipulation on a DOM element using jQuery.animate and other built-in functions",
+               "name":"jQuery Animations",
+               "number":10.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...properly validate a form using jQuery before the form is allowed to submit by testing the presence, length, and data type of each input's contents",
+               "name":"jQuery Form Validation",
+               "number":10.6
+            }
+         ],
+         "name":"JavaScript Libraries",
+         "number":10
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain the benefit of an AJAX request vs. a page refresh, and diagram the request flow for an AJAX request",
+               "name":"AJAX Concepts and Requests",
+               "number":11.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...perform a jQuery-based AJAX request to retrieve data from and send data to a server",
+               "name":"AJAX with jQuery",
+               "number":11.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...communicate with a remote API using a jQuery-based AJAX request",
+               "name":"AJAX + APIs",
+               "number":11.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...build a connection between an existing Rails app and JavaScript through AJAX, responding with JSON and HTML",
+               "name":"AJAX + Rails",
+               "number":11.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...use a JavaScript library to template AJAX'd JSON data into HTML and populate the DOM accordingly",
+               "name":"JS Templating",
+               "number":11.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...populate the DOM continually with additional elements from in-memory or AJAX'd data when a user scrolls to the bottom of a page",
+               "name":"Infinite Scroll",
+               "number":11.6
+            }
+         ],
+         "name":"AJAX",
+         "number":11
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...identify a front-end JavaScript MVC framework, describe it's major components, and diagram it's overarching architecture",
+               "name":"Intro to JS Library as an \"MVC\"",
+               "number":12.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...add a data layer to a front-end MVC framework",
+               "name":"JS MVC Models",
+               "number":12.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...manage the various URLs in a front-end MVC framework",
+               "name":"JS MVC Routing",
+               "number":12.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...implement a templating system into a front-end MVC framework",
+               "name":"JS MVC Views",
+               "number":12.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...connect a front-end MVC framework to a Rails app as an API and remote data store, and retrieve data from it",
+               "name":"JS MVC + Rails",
+               "number":12.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...connect a front-end MVC framework to a Rails app as an API and remote data store, and send form data to it",
+               "name":"JS MVC + Rails + Forms",
+               "number":12.6
+            }
+         ],
+         "name":"Javascript MVC",
+         "number":12
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...describe a variety of sorting algorithms, and identify appropriate scenarios for each one",
+               "name":"Sorting Algorithms",
+               "number":13.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":null,
+               "name":"Big-O and Algorithm Efficiency",
+               "number":13.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":null,
+               "name":"Binary Numbers",
+               "number":13.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain a process to create a recursive function",
+               "name":"Recursion",
+               "number":13.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain LIFO and FIFO concepts, and the difference between a stack and a queue",
+               "name":"Stacks and Queues",
+               "number":13.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...describe the properties of a singly-linked list, and demonstrate it's use",
+               "name":"Singly Linked Lists",
+               "number":13.6
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...describe the properties of a doubly-linked list and how it differs from a singly-linked list",
+               "name":"Doubly Linked Lists",
+               "number":13.7
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"..explain how a binary tree is used in modern computing, and how it contributes to performance",
+               "name":"Binary Trees",
+               "number":13.8
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...explain the difference between stack and heap, and how they are used in a web app",
+               "name":"Memory Management + Stack and Heap",
+               "number":13.9
+            }
+         ],
+         "name":"Computer Science",
+         "number":13
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "name":"Special Topics in the Web and Rails",
+         "number":14
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...deploy a web-based project to a remote host using the git protocol effectively",
+               "name":"Hosting on a git-based Provider (like Heroku)",
+               "number":15.1
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...configure a remote server as a web server, and deploy a web-based project to it effectively",
+               "name":"Configuring a Remote Server",
+               "number":15.2
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...register a new domain name, point it to an IP address, and configure a subdomain",
+               "name":"Domains, Subdomains, and DNS Records",
+               "number":15.3
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...identify key statistics and server load using a server monitoring tool",
+               "name":"Server Monitoring",
+               "number":15.4
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...demonstrate the load capacity of a server",
+               "name":"Testing Server Load",
+               "number":15.5
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":"...identify, compare, and contrast a variety of Rails web servers",
+               "name":"Alternate servers (i.e. thin, puma, unicorn)",
+               "number":15.6
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":null,
+               "name":null,
+               "number":0
+            }
+         ],
+         "name":"System Administration",
+         "number":15
+      },
+      {
+         
+         "_slugs":[
+
+         ],
+         "lessons":[
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":null,
+               "name":"Presentation Skills",
+               "number":0
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":null,
+               "name":"Project Management",
+               "number":0
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":null,
+               "name":"Styleguides",
+               "number":0
+            },
+            {
+               
+               "_slugs":[
+
+               ],
+               "learning_objective":null,
+               "name":null,
+               "number":0
+            }
+         ],
+         "name":"Soft Skills",
+         "number":0
+      },
+      {
+         
+         "_slugs":[
+
+         ]
+      }
+   ]
+}

@@ -2,6 +2,7 @@ require 'json'
 require 'pry'
 
 def start
+  set_curriculum
   option = ARGV.shift
   if option.nil?
     main_menu
@@ -14,6 +15,16 @@ def start
       prompt_user_with("Invalid Input!")
     end
       
+  end
+end
+
+def set_curriculum
+  begin
+  curriculum_file = File.open("#{ENV['HOME']}/.wdi/curriculum.json", "rb")
+    $CURRICULUM = JSON.parse(curriculum_file.read)
+  rescue
+    prompt_user_with("No ~/.wdi/curriculum.json found!  Certain features may not work")
+    $CURRICULUM = []
   end
 end
 
@@ -108,6 +119,9 @@ def make_new_exercise
 
   exercise_directory = "#{$target_path}/ex_#{id}"
 
+  # assign learning object
+  learning_objective = assign_learning_objective(unit)
+
   # make EX directory 
   Dir.mkdir(exercise_directory)
 
@@ -124,6 +138,8 @@ def make_new_exercise
 
   readme_string = <<-EOS
 \##{title}
+
+\#\#\#Learning Objective: #{learning_objective}
 
 \#\#\#Overview:
 
@@ -152,7 +168,8 @@ EOS
     tags: tags,
     unit: unit,
     length: length,
-    lesson_name: lesson_name
+    lesson_name: lesson_name,
+    learning_objective: learning_objective
   }
 
   f.puts JSON.pretty_generate(meta_hash)
@@ -342,6 +359,19 @@ What do you want to do?
       prompt_user_with("Invalid Choice!")
       search_results_prompt(results)
     end
+  end
+end
+
+def assign_learning_objective(unit)
+  return "" if $CURRICULUM.empty?
+  unit_array = unit.split(".")
+  unit_num = unit_array[0].to_i 
+  lesson_num = unit_array[1].to_i
+  curriculum_meta = $CURRICULUM["units"][unit_num]["lessons"].select { |lesson| lesson["number"] == "#{unit}.#{lesson_num}".to_f }.first
+  if curriculum_meta
+    return curriculum_meta["learning_objective"]
+  else
+    return ""
   end
 end
 
