@@ -1,0 +1,12 @@
+// this is the beginning of an idea for a file that is created by the installfest
+// that provides data to wdi-focused command line tools...
+// also, it only makes sense if this repo is stored in ~/.wdi/, so the scripts can find this
+
+{
+  "class_repos": {
+    "current": "/Users/name/dev/wdi/class"
+  },
+  "instructor_repos": {
+    "current": "/Users/name/dev/wdi/instructor"
+  }
+}

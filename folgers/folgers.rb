@@ -189,17 +189,31 @@ end
 def get_target_path
 
   unless $target_directory
-    puts "\nYou seem to be running this script from:\n"
-    puts Dir.pwd
-    puts "\nIs that also the location of your exercises? (y)es or (n)o"
-    choice = gets.chomp
-    if choice == "y"
-      $target_directory = Dir.pwd
+    # PJ: do a quick search for the .wdi/config.json -- if found suggest that
+    instructor_repo = get_target_path_from_config if File.exists?(File.expand_path("~/.wdi/config.json"))
+    if instructor_repo
+      puts "\nYour .wdi/config says that your current instructor repo is:\n"
+      puts instructor_repo
+      puts "\nIs that also the location of your exercises? (y)es or (n)o"
+      choice = gets.chomp
+      if choice == "y"
+        $target_directory = instructor_repo
+      else
+        puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
+        $target_directory = gets.chomp
+      end
     else
-      puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
-      $target_directory = gets.chomp
+      puts "\nYou seem to be running this script from:\n"
+      puts Dir.pwd
+      puts "\nIs that also the location of your exercises? (y)es or (n)o"
+      choice = gets.chomp
+      if choice == "y"
+        $target_directory = Dir.pwd
+      else
+        puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
+        $target_directory = gets.chomp
+      end
     end
-    
   end
 
   if Dir[$target_directory] == []
@@ -208,6 +222,10 @@ def get_target_path
 
   $target_path = "#{$target_directory}#{$target_directory[-1] != '/' ? '/' : ''}"
   return $target_path
+end
+
+def get_target_path_from_config
+  JSON.parse(IO.read(File.expand_path("~/.wdi/config.json")))["class_repos"]["current"]
 end
 
 def get_attribute_of_exercise
