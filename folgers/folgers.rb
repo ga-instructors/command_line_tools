@@ -69,7 +69,7 @@ EOS
 end
 
 def make_new_exercise
-  $target_path = get_$target_path
+  $target_path = get_target_path
   
   id = Time.now.to_i
 
