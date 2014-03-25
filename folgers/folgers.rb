@@ -99,6 +99,8 @@ def make_new_exercise
   tags = gets.chomp.split(/\s+/)
   # puts "enter difficulty level (1-10, 10 being hardest): "
   # level = gets.chomp.to_i
+  puts "enter the lesson name (i.e. HTML and AJAX): "
+  lesson_name = gets.chomp
   puts "enter the unit number (i.e. 3.14): "
   unit = gets.chomp
   puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
@@ -112,8 +114,13 @@ def make_new_exercise
   # make a solutions dir
   Dir.mkdir("#{exercise_directory}/solutions")
 
+  gitkeep1 = File.open("#{exercise_directory}/solutions/.gitkeep", "w")
+  gitkeep1.close
+
   # make a starters dir
   Dir.mkdir("#{exercise_directory}/starters")
+  gitkeep2 = File.open("#{exercise_directory}/starters/.gitkeep", "w")
+  gitkeep2.close
 
   readme_string = <<-EOS
 \##{title}
@@ -144,7 +151,8 @@ EOS
     authors: authors,
     tags: tags,
     unit: unit,
-    length: length
+    length: length,
+    lesson_name: lesson_name
   }
 
   f.puts JSON.pretty_generate(meta_hash)
