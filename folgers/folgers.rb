@@ -100,6 +100,10 @@ def make_new_exercise
   
   id = Time.now.to_i
 
+  puts "enter the unit number (i.e. 3.14): "
+  unit = gets.chomp
+  puts "enter the lesson name (i.e. HTML and AJAX): "
+  lesson_name = gets.chomp
   puts "enter the title: "
   title = gets.chomp
   puts "enter the language: "
@@ -110,10 +114,7 @@ def make_new_exercise
   tags = gets.chomp.split(/\s+/)
   # puts "enter difficulty level (1-10, 10 being hardest): "
   # level = gets.chomp.to_i
-  puts "enter the lesson name (i.e. HTML and AJAX): "
-  lesson_name = gets.chomp
-  puts "enter the unit number (i.e. 3.14): "
-  unit = gets.chomp
+  
   puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
   length = gets.chomp
 
@@ -139,7 +140,8 @@ def make_new_exercise
   readme_string = <<-EOS
 \##{title}
 
-\#\#\#Learning Objective: #{learning_objective}
+\#\#\#Learning Objective: 
+#{learning_objective}
 
 \#\#\#Overview:
 
