@@ -198,21 +198,8 @@ def make_new(resource)
   f = File.open(new_meta_file_path, "w")
 
   # TODO: turn the building of this hash into its own function
-  meta_hash = {}
+  meta_hash = parse_argv
   meta_hash["id"] = id
-
-  while !ARGV.empty? 
-    key_val_string = ARGV.shift
-    key_val_array = key_val_string.split(":")
-    key = key_val_array[0]
-    value = key_val_array[1]
-    collection_keys = ["tags", "contributors", "languages"]
-    if collection_keys.include? key 
-      meta_hash[key] = value.split(",")
-    else 
-      meta_hash[key] = value
-    end
-  end
 
   # binding.pry
   f.puts JSON.pretty_generate(meta_hash)
@@ -375,6 +362,23 @@ def assign_learning_objective(unit)
   else
     return ""
   end
+end
+
+def parse_argv
+  meta_hash = {}
+  while !ARGV.empty? 
+    key_val_string = ARGV.shift
+    key_val_array = key_val_string.split(":")
+    key = key_val_array[0]
+    value = key_val_array[1]
+    collection_keys = ["tags", "contributors", "languages"]
+    if collection_keys.include? key 
+      meta_hash[key] = value.split(",")
+    else 
+      meta_hash[key] = value
+    end
+  end
+  return meta_hash
 end
 
 def prompt_user_with(message)
