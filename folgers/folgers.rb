@@ -374,8 +374,8 @@ def search_results_prompt(results, query, attribute)
 What do you want to do?
 
 - you can type the choice number to open its readme
-- type "q" to return the main menu"
-- type "s" to search again
+- type "q" to quit search mode.
+#{ !$COMMAND_LINE_MODE ? '- type "s" to search again' : '' }
 
   EOS
   choice = $stdin.gets.chomp
