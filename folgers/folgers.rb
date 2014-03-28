@@ -1,18 +1,25 @@
 require 'json'
 require 'pry'
 
+# GLOBALS
+$COLLECTION_KEYS = [ "tags", "contributors", "languages", :authors, :tags]
+$COMMAND_LINE_MODE = false
+$ORIGINAL_OPTIONS = ARGV
+
 def start
   set_curriculum
   option = ARGV.shift
   if option.nil?
     main_menu
   else
+    $COMMAND_LINE_MODE = true
     puts "You chose: #{option}"
     if (option == "g" || option == "generate")
       puts "Made: "
       puts make_new(ARGV.shift)
-    else
-      prompt_user_with("Invalid Input!")
+    elsif (option == "s" || option == "search")
+      puts "Finding"
+      search_for_exercise
     end
       
   end
@@ -63,7 +70,7 @@ def main_menu
     4. quit                    
 
 EOS
-  choice = gets.chomp.to_i
+  choice = $stdin.gets.chomp.to_i
   case choice
     when 1
       make_new_exercise
@@ -101,22 +108,22 @@ def make_new_exercise
   id = Time.now.to_i
 
   puts "enter the unit number (i.e. 3.14): "
-  unit = gets.chomp
+  unit = $stdin.gets.chomp
   puts "enter the lesson name (i.e. HTML and AJAX): "
-  lesson_name = gets.chomp
+  lesson_name = $stdin.gets.chomp
   puts "enter the title: "
-  title = gets.chomp
+  title = $stdin.gets.chomp
   puts "enter the language: "
-  language = gets.chomp
+  language = $stdin.gets.chomp
   puts "enter the author(s) (i.e. firstname lastname separated by commas): "
-  authors = gets.chomp.split(/\,\s+/)
+  authors = $stdin.gets.chomp.split(/\,\s+/)
   puts "enter tags (separated by spaces): "
-  tags = gets.chomp.split(/\s+/)
+  tags = $stdin.gets.chomp.split(/\s+/)
   # puts "enter difficulty level (1-10, 10 being hardest): "
-  # level = gets.chomp.to_i
+  # level = $stdin.gets.chomp.to_i
   
   puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
-  length = gets.chomp
+  length = $stdin.gets.chomp
 
   exercise_directory = "#{$target_path}/ex_#{id}"
 
@@ -198,7 +205,7 @@ def make_new(resource)
   f = File.open(new_meta_file_path, "w")
 
   # TODO: turn the building of this hash into its own function
-  meta_hash = parse_argv
+  meta_hash = parse_argv(ARGV)
   meta_hash["id"] = id
 
   # binding.pry
@@ -209,14 +216,28 @@ def make_new(resource)
 end
 
 def search_for_exercise
-  
-  attribute = get_attribute_of_exercise
 
-  puts "enter your search query:"
-  query = gets.chomp
+  unless $COMMAND_LINE_MODE
+    attribute = get_attribute_of_exercise
+
+    puts "enter your search query:"
+    query = $stdin.gets.chomp
+  else 
+    # attribute_query_string = ARGV.shift
+    hash = parse_argv($ORIGINAL_OPTIONS)
+    # binding.pry
+    if hash.keys[0]
+      attribute = hash.keys[0].to_sym
+      query = hash.values[0]
+    else
+      attribute = nil 
+      query = nil
+    end
+    # binding.pry
+  end
 
   $target_path = get_target_path
-
+    # binding.pry
   begin 
     f = File.open("#{$target_path}index.json", "rb")
   rescue
@@ -226,26 +247,25 @@ def search_for_exercise
   index_json = f.read
   index_array = JSON.parse(index_json)
   results = []
-  # TODO: put this somewhere else
-  attributes_that_are_collections = [:authors, :tags]
   index_array.each do |ex|
-    if (!attributes_that_are_collections.include? attribute) &&
+    if (!$COLLECTION_KEYS.include? attribute) &&
       ex[attribute.to_s] == query
       results << ex
-    elsif (attributes_that_are_collections.include? attribute) && 
+    elsif ($COLLECTION_KEYS.include? attribute) && 
       (ex[attribute.to_s] & query.split(/\,\s+/) != [] )
       results << ex
     end
   end
-
+  # binding.pry
   prompt_user_with("RESULTS!")
   results.each.with_index(1) do |result, index|
     puts "Choice \##{index}: #{result['title']}"
   end
   puts "\nFound #{results.length} matches for a(n) '#{attribute.to_s}' with '#{query}'.\n"
-  if search_results_prompt(results)
+  if search_results_prompt(results, query, attribute)
     search_for_exercise
   end
+  
 end
 
 def generate_index_file
@@ -268,29 +288,35 @@ def get_target_path
   unless $target_directory
     # PJ: do a quick search for the .wdi/config.json -- if found suggest that
     instructor_repo = get_target_path_from_config if File.exists?(File.expand_path("~/.wdi/config.json"))
+    
+
     if instructor_repo
       puts "\nYour .wdi/config says that your current instructor repo is:\n"
       puts instructor_repo
       puts "\nIs that also the location of your exercises? (y)es or (n)o"
-      choice = gets.chomp
+      choice = $stdin.gets.chomp
       if choice == "y"
         $target_directory = instructor_repo
       else
         puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
-        $target_directory = gets.chomp
+        $target_directory = $stdin.gets.chomp
       end
-    else
+    elsif
       puts "\nYou seem to be running this script from:\n"
       puts Dir.pwd
       puts "\nIs that also the location of your exercises? (y)es or (n)o"
-      choice = gets.chomp
+      choice = $stdin.gets.chomp
       if choice == "y"
         $target_directory = Dir.pwd
       else
         puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
-        $target_directory = gets.chomp
+        $target_directory = $stdin.gets.chomp
       end
+    # for command_line_mode
+    elsif $COMMAND_LINE_MODE
+      $target_directory = Dir.pwd 
     end
+      
   end
 
   if Dir[$target_directory] == []
@@ -317,7 +343,7 @@ def get_attribute_of_exercise
       7. unit
       8. lesson_name
   EOS
-  choice = gets.chomp.to_i
+  choice = $stdin.gets.chomp.to_i
   case choice
   when 1
     attribute = :id
@@ -342,7 +368,7 @@ def get_attribute_of_exercise
   return attribute
 end
 
-def search_results_prompt(results)
+def search_results_prompt(results, query, attribute)
   puts <<-EOS
 
 What do you want to do?
@@ -352,19 +378,23 @@ What do you want to do?
 - type "s" to search again
 
   EOS
-  choice = gets.chomp
+  choice = $stdin.gets.chomp
   case choice
   when "q"
     return false
   when "s"
-    return true
+    unless $COMMAND_LINE_MODE
+      return true
+    else
+      search_for_exercise
+    end
   else
     if results[choice.to_i-1] 
       system("open #{$target_path}ex_#{results[choice.to_i-1]['id']}/README.md")
-      search_results_prompt(results)
+      search_results_prompt(results, nil, nil)
     else 
       prompt_user_with("Invalid Choice!")
-      search_results_prompt(results)
+      search_results_prompt(results, nil, nil)
     end
   end
 end
@@ -382,15 +412,14 @@ def assign_learning_objective(unit)
   end
 end
 
-def parse_argv
+def parse_argv(arguments)
   meta_hash = {}
-  while !ARGV.empty? 
-    key_val_string = ARGV.shift
+  arguments.each_index do |index|
+    key_val_string = arguments[index]
     key_val_array = key_val_string.split(":")
     key = key_val_array[0]
     value = key_val_array[1]
-    collection_keys = ["tags", "contributors", "languages"]
-    if collection_keys.include? key 
+    if $COLLECTION_KEYS.include? key 
       meta_hash[key] = value.split(",")
     else 
       meta_hash[key] = value
