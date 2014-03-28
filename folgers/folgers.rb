@@ -235,7 +235,8 @@ def search_for_exercise
     end
     # binding.pry
   end
-
+  # binding.pry
+  query = query
   $target_path = get_target_path
     # binding.pry
   begin 
@@ -253,11 +254,13 @@ def search_for_exercise
       results << ex
     elsif ($COLLECTION_KEYS.include? attribute) && 
       if query.class == String
-        ( ex[attribute.to_s] & query.split(/\,\s+/) != [] )
-        results << ex
+        if ( ex[attribute.to_s] & query.split(/\,\s+/) != [] )
+          results << ex
+        end
       else
-        ( ex[attribute.to_s] & query != [] )
-        results << ex
+        if ( ex[attribute.to_s] & query != [] )
+          results << ex
+        end
       end
     end
   end
