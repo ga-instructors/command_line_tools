@@ -229,9 +229,9 @@ def search_for_exercise
     if hash.keys[0]
       attribute = hash.keys[0].to_sym
       query = hash.values[0]
-    else
-      attribute = nil 
-      query = nil
+    else 
+      attribute = ""
+      query = ""
     end
     # binding.pry
   end
@@ -252,8 +252,13 @@ def search_for_exercise
       ex[attribute.to_s] == query
       results << ex
     elsif ($COLLECTION_KEYS.include? attribute) && 
-      (ex[attribute.to_s] & query.split(/\,\s+/) != [] )
-      results << ex
+      if query.class == String
+        ( ex[attribute.to_s] & query.split(/\,\s+/) != [] )
+        results << ex
+      else
+        ( ex[attribute.to_s] & query != [] )
+        results << ex
+      end
     end
   end
   # binding.pry
@@ -301,7 +306,9 @@ def get_target_path
         puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
         $target_directory = $stdin.gets.chomp
       end
-    elsif
+    elsif $COMMAND_LINE_MODE
+      $target_directory = Dir.pwd 
+    else
       puts "\nYou seem to be running this script from:\n"
       puts Dir.pwd
       puts "\nIs that also the location of your exercises? (y)es or (n)o"
@@ -313,12 +320,9 @@ def get_target_path
         $target_directory = $stdin.gets.chomp
       end
     # for command_line_mode
-    elsif $COMMAND_LINE_MODE
-      $target_directory = Dir.pwd 
     end
       
   end
-
   if Dir[$target_directory] == []
     Dir.mkdir($target_directory)
   end
