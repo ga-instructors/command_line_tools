@@ -106,7 +106,7 @@ class Folgers
   end
 
   def make_new_exercise
-    $target_path = get_target_path
+    @target_path = get_target_path
     
     id = Time.now.to_i
 
@@ -128,7 +128,7 @@ class Folgers
     puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
     length = $stdin.gets.chomp
 
-    exercise_directory = "#{$target_path}/ex_#{id}"
+    exercise_directory = "#{@target_path}/ex_#{id}"
 
     # assign learning object
     learning_objective = assign_learning_objective(unit)
@@ -196,12 +196,12 @@ class Folgers
     # TODO: support more types of resources
     return false if resource != "meta"
 
-    $target_path = Dir.pwd
+    @target_path = Dir.pwd
     
     id = Time.now.to_i
 
     new_meta_file_path = [ 
-        $target_path,
+        @target_path,
         "/meta.json"
         ].join("")
 
@@ -240,13 +240,13 @@ class Folgers
     end
     # binding.pry
     query = query
-    $target_path = get_target_path
+    @target_path = get_target_path
       # binding.pry
     begin 
-      f = File.open("#{$target_path}index.json", "rb")
+      f = File.open("#{@target_path}index.json", "rb")
     rescue
       generate_index_file
-      f = File.open("#{$target_path}index.json", "rb")
+      f = File.open("#{@target_path}index.json", "rb")
     end
     index_json = f.read
     index_array = JSON.parse(index_json)
@@ -280,23 +280,23 @@ class Folgers
   end
 
   def generate_index_file
-    $target_path = get_target_path
+    @target_path = get_target_path
     exercises = []
-    Dir.glob("#{$target_path}ex_*").each do |file_path|
+    Dir.glob("#{@target_path}ex_*").each do |file_path|
       file = File.open("#{file_path}/meta.json", "rb")
       file_json = file.read
       file_hash = JSON.parse(file_json)
       exercises.push(file_hash)
       file.close
     end
-    index_file = File.open("#{$target_path}index.json", "w")
+    index_file = File.open("#{@target_path}index.json", "w")
     index_file.puts JSON.pretty_generate(exercises)
     index_file.close
   end
 
   def get_target_path
 
-    unless $target_directory
+    unless @target_directory
       # PJ: do a quick search for the .wdi/config.json -- if found suggest that
       instructor_repo = get_target_path_from_config if File.exists?(File.expand_path("~/.wdi/config.json"))
       
@@ -307,34 +307,34 @@ class Folgers
         puts "\nIs that also the location of your exercises? (y)es or (n)o"
         choice = $stdin.gets.chomp
         if choice == "y"
-          $target_directory = instructor_repo
+          @target_directory = instructor_repo
         else
           puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
-          $target_directory = $stdin.gets.chomp
+          @target_directory = $stdin.gets.chomp
         end
       elsif @COMMAND_LINE_MODE
-        $target_directory = Dir.pwd 
+        @target_directory = Dir.pwd 
       else
         puts "\nYou seem to be running this script from:\n"
         puts Dir.pwd
         puts "\nIs that also the location of your exercises? (y)es or (n)o"
         choice = $stdin.gets.chomp
         if choice == "y"
-          $target_directory = Dir.pwd
+          @target_directory = Dir.pwd
         else
           puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
-          $target_directory = $stdin.gets.chomp
+          @target_directory = File.expand_path($stdin.gets.chomp)
         end
       # for@command_line_mode
       end
         
     end
-    if Dir[$target_directory] == []
-      Dir.mkdir($target_directory)
+    if Dir[@target_directory] == []
+      Dir.mkdir(@target_directory)
     end
 
-    $target_path = "#{$target_directory}#{$target_directory[-1] != '/' ? '/' : ''}"
-    return $target_path
+    @target_path = "#{@target_directory}#{@target_directory[-1] != '/' ? '/' : ''}"
+    return @target_path
   end
 
   def get_target_path_from_config
@@ -400,8 +400,8 @@ class Folgers
       end
     else
       if results[choice.to_i-1] 
-        system("open #{$target_path}ex_#{results[choice.to_i-1]['id']}/README.md")
-        system("open #{$target_path}ex_#{results[choice.to_i-1]['id']}")
+        system("open #{@target_path}ex_#{results[choice.to_i-1]['id']}/README.md")
+        system("open #{@target_path}ex_#{results[choice.to_i-1]['id']}")
         search_results_prompt(results, nil, nil)
       else 
         prompt_user_with("Invalid Choice!")
