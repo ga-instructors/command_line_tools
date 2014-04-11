@@ -11,6 +11,8 @@ class Folgers
     @ORIGINAL_OPTIONS = ARGV
 
     set_curriculum
+    set_student_roster
+
     option = ARGV.shift
     if option.nil?
       main_menu
@@ -20,6 +22,9 @@ class Folgers
       if (option == "g" || option == "generate")
         puts "Made: "
         puts make_new(ARGV.shift)
+      elsif (option == "f" || option == "folders")
+        puts "Made: "
+        puts make_student_folders(ARGV.shift)
       elsif (option == "s" || option == "search")
         puts "Finding"
         search_for_exercise
@@ -30,11 +35,21 @@ class Folgers
 
   def set_curriculum
     begin
-    curriculum_file = File.open("#{ENV['HOME']}/.wdi/curriculum.json", "rb")
+      curriculum_file = File.open("#{ENV['HOME']}/.wdi/curriculum.json", "rb")
       @CURRICULUM = JSON.parse(curriculum_file.read)
     rescue
       prompt_user_with("No ~/.wdi/curriculum.json found!  Certain features may not work")
       @CURRICULUM = []
+    end
+  end
+
+  def set_student_roster
+    begin
+      student_roster_file = File.open("#{ENV['HOME']}/.wdi/students.json", "rb")
+      @STUDENTS = JSON.parse(student_roster_file.read)
+    rescue
+      prompt_user_with("No ~/.wdi/students.json found!  Certain features may not work")
+      @STUDENTS = []
     end
   end
 
@@ -103,6 +118,28 @@ class Folgers
   EOS
         main_menu
     end
+  end
+
+  def make_student_folders(target_folder_name)
+
+    # new_dir_path = "#{Dir.pwd}/#{target_folder_name}"
+
+    # begin
+    #   Dir.mkdir(new_dir_path)
+    # rescue Exception => e
+    #   unless e.class == Errno::EEXIST
+    #     return
+    #   end
+    # end
+    puts "Folder Name: #{target_folder_name}"
+    @STUDENTS.each do |student|
+      puts "_"*20
+      puts "Name: #{student['Name']}"
+      puts "Email: #{student['Email']}"
+      puts "GitHub: #{student['GitHub']}"
+      puts "_"*20
+    end
+    nil
   end
 
   def make_new_exercise
