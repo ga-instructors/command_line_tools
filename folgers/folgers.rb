@@ -23,7 +23,6 @@ class Folgers
         puts "Made: "
         puts make_new(ARGV.shift)
       elsif (option == "f" || option == "folders")
-        puts "Made: "
         puts make_student_folders(ARGV.shift)
       elsif (option == "s" || option == "search")
         puts "Finding"
@@ -84,8 +83,9 @@ class Folgers
 
       1. make new exercise   
       2. find an exercise
-      3. generate index JSON    
-      4. quit                    
+      3. generate index JSON  
+      4. make student folders  
+      5. quit                    
 
   EOS
     choice = $stdin.gets.chomp.to_i
@@ -108,6 +108,9 @@ class Folgers
         # system("clear")
         main_menu
       when 4
+        make_student_folders
+        main_menu
+      when 5
         system("clear")
       else 
         system("clear")
@@ -120,26 +123,42 @@ class Folgers
     end
   end
 
-  def make_student_folders(target_folder_name)
-
-    # new_dir_path = "#{Dir.pwd}/#{target_folder_name}"
-
-    # begin
-    #   Dir.mkdir(new_dir_path)
-    # rescue Exception => e
-    #   unless e.class == Errno::EEXIST
-    #     return
-    #   end
-    # end
-    puts "Folder Name: #{target_folder_name}"
-    @STUDENTS.each do |student|
-      puts "_"*20
-      puts "Name: #{student['Name']}"
-      puts "Email: #{student['Email']}"
-      puts "GitHub: #{student['GitHub']}"
-      puts "_"*20
+  def make_student_folders(target_folder_input=nil)
+    unless @COMMAND_LINE_MODE
+      puts "What is the name of the student folder? (i.e. d01)"
+      target_folder_input = gets.chomp
     end
-    nil
+    return prompt_user_with("Must specify folder name!") unless target_folder_input
+    target_folder_name = target_folder_input.gsub(/[\s|\/]/,"")
+    new_dir_path = "#{Dir.pwd}/#{target_folder_name}"
+
+    begin
+      Dir.mkdir(new_dir_path)
+    rescue Exception => e
+      unless e.class == Errno::EEXIST
+        return
+      end
+    end
+    puts "Making Student Folders"
+    @STUDENTS.each do |student|
+      # remove terminal white space and then replace internal spaces with underscores
+      name = student['Name'].gsub(/ $|\n/,"").gsub(/^ /,"").gsub(/ +/,"_")
+      email = student['Email']
+      github = student['GitHub'] ? student['GitHub'].gsub(/ $/,"") : ""
+      student_folder_path = "#{new_dir_path}/#{name}"
+      Dir.mkdir(student_folder_path)
+      readme_file = File.open("#{student_folder_path}/README.md","w")
+      readme_file.puts "Name: #{name}"
+      readme_file.puts "Email: #{email}"
+      readme_file.puts "GitHub: #{github}"
+      readme_file.close
+    end
+    puts "Making Instructors Folder"
+    Dir.mkdir("#{new_dir_path}/Instructors")
+    daily_readme = File.open("#{new_dir_path}/Readme.md","w")
+    daily_readme.puts "#Readme.md"
+    daily_readme.close
+    "Finished making #{new_dir_path}"
   end
 
   def make_new_exercise
