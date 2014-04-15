@@ -155,6 +155,8 @@ class Folgers
     end
     puts "Making Instructors Folder"
     Dir.mkdir("#{new_dir_path}/Instructors")
+    instructor_gitkeep = File.open("#{new_dir_path}/Instructors", "w")
+    instructor_gitkeep.close
     daily_readme = File.open("#{new_dir_path}/Readme.md","w")
     daily_readme.puts "#Readme.md"
     daily_readme.close
