@@ -156,18 +156,17 @@ class Folgers
 
     puts "Making INSTRUCTORS Folder"
     Dir.mkdir("#{new_dir_path}/INSTRUCTORS")
-    puts "Making Instructors Folder"
-    Dir.mkdir("#{new_dir_path}/Instructors")
-    instructor_gitkeep = File.open("#{new_dir_path}/INSTRUCTORS", "w")
+    instructor_gitkeep = File.open("#{new_dir_path}/INSTRUCTORS/.gitkeep", "w")
     instructor_gitkeep.close
-    daily_readme = File.open("#{new_dir_path}/Readme.md","w")
-    daily_readme.puts "#Readme.md"
-    daily_readme.close
 
     puts "Making ASSIGNMENT_FILES Folder"
     Dir.mkdir("#{new_dir_path}/ASSIGNMENT_FILES")
-    assignment_files_gitkeep = File.open("#{new_dir_path}/ASSIGNMENT_FILES", "w")
+    assignment_files_gitkeep = File.open("#{new_dir_path}/ASSIGNMENT_FILES/.gitkeep", "w")
     assignment_files_gitkeep.close
+
+    daily_readme = File.open("#{new_dir_path}/Readme.md","w")
+    daily_readme.puts "#Readme.md"
+    daily_readme.close
 
     "Finished making #{new_dir_path}"
   end
