@@ -24,6 +24,8 @@ class Folgers
         puts make_new(ARGV.shift)
       elsif (option == "f" || option == "folders")
         puts make_student_folders(ARGV.shift)
+      elsif (option == "d" || option == "distribute")
+        puts distribute_to_students(ARGV.shift)
       elsif (option == "s" || option == "search")
         puts "Finding"
         search_for_exercise
@@ -121,6 +123,28 @@ class Folgers
   EOS
         main_menu
     end
+  end
+
+  def distribute_to_students(source)
+    if source == "" || source == nil
+      assignment_dir = "ASSIGNMENT_FILES"
+    else
+      # clean source
+      assignment_dir = source.gsub(/[^A-Za-z0-9\s]/,"")
+    end
+    source_dir = "#{Dir.pwd}/#{assignment_dir}"
+    puts "source: #{source_dir}"
+
+    # directories to ignore when distributing a file
+    ignored_files = [ assignment_dir, "INSTRUCTORS", "Readme.md" ]
+    # binding.pry
+    Dir.glob("*").each do |thing|
+      unless ignored_files.include? thing.to_s
+        system("cp -R #{assignment_dir}/* #{thing}")
+        puts thing
+      end
+    end
+    nil
   end
 
   def make_student_folders(target_folder_input=nil)
