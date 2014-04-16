@@ -28,7 +28,7 @@ class Folgers
         puts "Finding"
         search_for_exercise
       end
-        
+
     end
   end
 
@@ -72,20 +72,20 @@ class Folgers
            |             (  /
            \\              |'
             `-.._____..-'
-    __       _                     
-   / _| ___ | | __ _  ___ _ __ ___ 
+    __       _
+   / _| ___ | | __ _  ___ _ __ ___
   | |_ / _ \\| |/ _` |/ _ \\ '__/ __|
   |  _| (_) | | (_| |  __/ |  \\__ \\
   |_|  \\___/|_|\\__, |\\___|_|  |___/
-               |___/ 
-                          
-      What would you like to do? 
+               |___/
 
-      1. make new exercise   
+      What would you like to do?
+
+      1. make new exercise
       2. find an exercise
-      3. generate index JSON  
-      4. make student folders  
-      5. quit                    
+      3. generate index JSON
+      4. make student folders
+      5. quit
 
   EOS
     choice = $stdin.gets.chomp.to_i
@@ -99,11 +99,11 @@ class Folgers
   ================================
   EOS
         main_menu
-      when 2 
+      when 2
         search_for_exercise
         system("clear")
         main_menu
-      when 3 
+      when 3
         generate_index_file
         # system("clear")
         main_menu
@@ -112,7 +112,7 @@ class Folgers
         main_menu
       when 5
         system("clear")
-      else 
+      else
         system("clear")
         puts <<-EOS
   ======================================
@@ -153,17 +153,21 @@ class Folgers
       readme_file.puts "GitHub: #{github}"
       readme_file.close
     end
-    puts "Making Instructors Folder"
-    Dir.mkdir("#{new_dir_path}/Instructors")
+    puts "Making INSTRUCTORS Folder"
+    Dir.mkdir("#{new_dir_path}/INSTRUCTORS")
     daily_readme = File.open("#{new_dir_path}/Readme.md","w")
     daily_readme.puts "#Readme.md"
     daily_readme.close
+
+    puts "Making ASSIGNMENT_FILES Folder"
+    Dir.mkdir("#{new_dir_path}/ASSIGNMENT_FILES")
+
     "Finished making #{new_dir_path}"
   end
 
   def make_new_exercise
     @target_path = get_target_path
-    
+
     id = Time.now.to_i
 
     puts "enter the unit number (i.e. 3.14): "
@@ -180,7 +184,7 @@ class Folgers
     tags = $stdin.gets.chomp.split(/\s+/)
     # puts "enter difficulty level (1-10, 10 being hardest): "
     # level = $stdin.gets.chomp.to_i
-    
+
     puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
     length = $stdin.gets.chomp
 
@@ -189,7 +193,7 @@ class Folgers
     # assign learning object
     learning_objective = assign_learning_objective(unit)
 
-    # make EX directory 
+    # make EX directory
     Dir.mkdir(exercise_directory)
 
     # make a solutions dir
@@ -206,7 +210,7 @@ class Folgers
     readme_string = <<-EOS
   \##{title}
 
-  \#\#\#Learning Objective: 
+  \#\#\#Learning Objective:
   #{learning_objective}
 
   \#\#\#Overview:
@@ -221,7 +225,7 @@ class Folgers
     readme.puts readme_string
     readme.close
 
-    new_meta_file_path = [ 
+    new_meta_file_path = [
         exercise_directory,
         "/meta.json"
         ].join("")
@@ -253,10 +257,10 @@ class Folgers
     return false if resource != "meta"
 
     @target_path = Dir.pwd
-    
+
     id = Time.now.to_i
 
-    new_meta_file_path = [ 
+    new_meta_file_path = [
         @target_path,
         "/meta.json"
         ].join("")
@@ -281,14 +285,14 @@ class Folgers
 
       puts "enter your search query:"
       query = $stdin.gets.chomp
-    else 
+    else
       # attribute_query_string = ARGV.shift
       hash = parse_argv(@ORIGINAL_OPTIONS)
       # binding.pry
       if hash.keys[0]
         attribute = hash.keys[0].to_sym
         query = hash.values[0]
-      else 
+      else
         attribute = ""
         query = ""
       end
@@ -298,7 +302,7 @@ class Folgers
     query = query
     @target_path = get_target_path
       # binding.pry
-    begin 
+    begin
       f = File.open("#{@target_path}index.json", "rb")
     rescue
       generate_index_file
@@ -311,7 +315,7 @@ class Folgers
       if (!@COLLECTION_KEYS.include? attribute.to_sym) &&
         ex[attribute.to_s] == query
         results << ex
-      elsif (@COLLECTION_KEYS.include? attribute.to_sym) && 
+      elsif (@COLLECTION_KEYS.include? attribute.to_sym) &&
         if query.class == String
           if ( ex[attribute.to_s] & query.split(/\,\s+/) != [] )
             results << ex
@@ -332,7 +336,7 @@ class Folgers
     if search_results_prompt(results, query, attribute)
       search_for_exercise
     end
-    
+
   end
 
   def generate_index_file
@@ -355,7 +359,7 @@ class Folgers
     unless @target_directory
       # PJ: do a quick search for the .wdi/config.json -- if found suggest that
       instructor_repo = get_target_path_from_config if File.exists?(File.expand_path("~/.wdi/config.json"))
-      
+
 
       if instructor_repo
         puts "\nYour .wdi/config says that your current instructor repo is:\n"
@@ -369,7 +373,7 @@ class Folgers
           @target_directory = $stdin.gets.chomp
         end
       elsif @COMMAND_LINE_MODE
-        @target_directory = Dir.pwd 
+        @target_directory = Dir.pwd
       else
         puts "\nYou seem to be running this script from:\n"
         puts Dir.pwd
@@ -383,7 +387,7 @@ class Folgers
         end
       # for@command_line_mode
       end
-        
+
     end
     if Dir[@target_directory] == []
       Dir.mkdir(@target_directory)
@@ -400,7 +404,7 @@ class Folgers
   def get_attribute_of_exercise
     puts "What exercise attribute do you want to search by?"
     puts <<-EOS
-        1. id 
+        1. id
         2. language
         3. tags
         4. authors
@@ -455,11 +459,11 @@ class Folgers
         search_for_exercise
       end
     else
-      if results[choice.to_i-1] 
+      if results[choice.to_i-1]
         system("open #{@target_path}ex_#{results[choice.to_i-1]['id']}/README.md")
         system("open #{@target_path}ex_#{results[choice.to_i-1]['id']}")
         search_results_prompt(results, nil, nil)
-      else 
+      else
         prompt_user_with("Invalid Choice!")
         search_results_prompt(results, nil, nil)
       end
@@ -469,7 +473,7 @@ class Folgers
   def assign_learning_objective(unit)
     return "" if @CURRICULUM.empty?
     unit_array = unit.split(".")
-    unit_num = unit_array[0].to_i 
+    unit_num = unit_array[0].to_i
     lesson_num = unit_array[1].to_i
     curriculum_meta = @CURRICULUM["units"][unit_num]["lessons"].select { |lesson| lesson["number"] == "#{unit}.#{lesson_num}".to_f }.first
     if curriculum_meta
@@ -486,9 +490,9 @@ class Folgers
       key_val_array = key_val_string.split(":")
       key = key_val_array[0]
       value = key_val_array[1]
-      if @COLLECTION_KEYS.include? key.to_sym 
+      if @COLLECTION_KEYS.include? key.to_sym
         meta_hash[key] = value.split(",")
-      else 
+      else
         meta_hash[key] = value
       end
     end
