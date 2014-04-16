@@ -137,7 +137,7 @@ class Folgers
 
     # directories to ignore when distributing a file
     ignored_files = [ assignment_dir, "INSTRUCTORS", "Readme.md" ]
-    # binding.pry
+
     Dir.glob("*").each do |thing|
       unless ignored_files.include? thing.to_s
         system("cp -R #{assignment_dir}/* #{thing}")
