@@ -133,15 +133,15 @@ class Folgers
       assignment_dir = source.gsub(/[^A-Za-z0-9\s]/,"")
     end
     source_dir = "#{Dir.pwd}/#{assignment_dir}"
-    puts "source: #{source_dir}"
+    # puts "source: #{source_dir}"
 
     # directories to ignore when distributing a file
     ignored_files = [ assignment_dir, "INSTRUCTORS", "Readme.md" ]
 
-    Dir.glob("*").each do |thing|
-      unless ignored_files.include? thing.to_s
-        system("cp -R #{assignment_dir}/* #{thing}")
-        puts thing
+    Dir.glob("*").each do |file|
+      unless ignored_files.include? file.to_s
+        system("cp -R #{assignment_dir}/* #{file}")
+        puts "Distributed #{assignment_dir} to #{file}"
       end
     end
     nil
