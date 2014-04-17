@@ -13,8 +13,8 @@ class Folgers
     @COMMAND_LINE_MODE = false
     @ORIGINAL_OPTIONS = ARGV
 
-    set_curriculum
-    set_student_roster
+    @CURRICULUM = try_load_file(WDI_CURRICULUM_FILE)
+    @STUDENTS = try_load_file(WDI_STUDENTS_FILE)
 
     option = ARGV.shift
     if option.nil?
@@ -39,23 +39,12 @@ class Folgers
     end
   end
 
-  def set_curriculum
-    begin
-      curriculum_file = File.open(WDI_CURRICULUM_FILE, "rb")
-      @CURRICULUM = JSON.parse(curriculum_file.read)
-    rescue
-      prompt_user_with("No #{WDI_CURRICULUM_FILE} found!  Certain features may not work")
-      @CURRICULUM = []
-    end
-  end
-
-  def set_student_roster
-    begin
-      student_roster_file = File.open(WDI_STUDENTS_FILE, "rb")
-      @STUDENTS = JSON.parse(student_roster_file.read)
-    rescue
-      prompt_user_with("No #{WDI_STUDENTS_FILE} found!  Certain features may not work")
-      @STUDENTS = []
+  def try_load_file filename
+    if File.exists? filename
+      return File.open(WDI_STUDENTS_FILE, "rb")
+    else
+      prompt_user_with("No #{filename} found! Certain features may not work.")
+      return []
     end
   end
 
