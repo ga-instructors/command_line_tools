@@ -4,30 +4,32 @@ module Folgers::UI
 
   module CommandLine
 
-    def self.run argv
-      parse_arguments argv
+    def self.run folgers, argv
+      result = parse_arguments(folgers, argv)
+      puts results
     end
 
-    def self.parse_arguments argv
-      puts "You chose: #{option}"
+    def self.parse_arguments folgers, argv
+      target_folder = Dir.pwd
 
       if (option == "g" || option == "generate")
-        puts "Made: "
-        puts make_new(argv.shift)
+        resource_type = argv.shift
+        folgers.make_new(target_folder, resource_type)
 
       elsif (option == "f" || option == "folders")
-        puts make_student_folders(argv.shift)
+        folgers.make_student_folders(target_folder)
 
       elsif (option == "d" || option == "distribute")
-        puts distribute_to_students(argv.shift)
+        folgers.distribute_to_students(argv.shift)
 
       elsif (option == "s" || option == "search")
-        puts "Finding"
-        search_for_exercise(argv)
+        query = argv.shift
+        attribute = argv.shift
+        folgers.search_for_exercise(target_path, query, attribute)
 
       elsif (option == "t" || option == "test")
-        # TODO: Max must improve this
-        puts test_student_files(argv.shift)
+        folgers.test_student_files(argv.shift)
+
       end
     end
 
@@ -51,7 +53,7 @@ module Folgers::UI
         key_val_array = key_val_string.split(":")
         key = key_val_array[0]
         value = key_val_array[1]
-        if @COLLECTION_KEYS.include? key.to_sym
+        if Folgers::COLLECTION_KEYS.include? key.to_sym
           meta_hash[key] = value.split(",")
         else
           meta_hash[key] = value

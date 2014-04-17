@@ -5,7 +5,7 @@
 # but we don't have to worry about how the user has installed the binary
 
 THIS_FILE_PATH = File.dirname(__FILE__)
-FOLGERS_LIB_PATH = File.expand_path("../folgers/lib", this_file_path)
+FOLGERS_LIB_PATH = File.expand_path("../folgers/lib", THIS_FILE_PATH)
 $LOAD_PATH.unshift FOLGERS_LIB_PATH
 
 require 'folgers'
@@ -16,14 +16,16 @@ require 'folgers'
 # when someone runs "folgers", $0 will be "folgers"
 # when someone runs "folgers-interactive", $0 will be "folgers-interactive"
 
+f = Folgers::Folgers.new
+
 case $0
 when /folgers$/
     require 'folgers/ui/command_line'
-    Folgers::UI::CommandLine.run(ARGV)
+    Folgers::UI::CommandLine.run(f, ARGV)
 
 when /folgers-interactive$/
     require 'folgers/ui/interactive'
-    Folgers::UI::Interactive.run()
+    Folgers::UI::Interactive.run(f)
 
 end
 

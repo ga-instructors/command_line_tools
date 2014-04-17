@@ -9,13 +9,29 @@ WDI_STUDENTS_FILE = "#{WDI_CONFIG_DIR}/students.json"
 
 module Folgers
 
+  COLLECTION_KEYS = [:contributors, :languages, :authors, :tags]
+
   class Folgers
 
+    attr_reader :config
+
     def initialize
-      @COLLECTION_KEYS = [:contributors, :languages, :authors, :tags]
-      @COMMAND_LINE_MODE = false
-      @CURRICULUM = try_load_file(WDI_CURRICULUM_FILE)
-      @STUDENTS = try_load_file(WDI_STUDENTS_FILE)
+      @curriculum = try_load_file(WDI_CURRICULUM_FILE)
+      @students = try_load_file(WDI_STUDENTS_FILE)
+
+      if File.exists? WDI_CONFIG_FILE
+        @config = JSON.parse(File.read(File.expand_path(WDI_CONFIG_FILE)))
+      else
+        @config = {}
+      end
+    end
+
+    def current_instructor_repo
+      if @config['instructor_repos']
+        return @config['instructor_repos']['current']
+      else
+        return nil
+      end
     end
 
     def try_load_file(filename)
@@ -72,10 +88,10 @@ module Folgers
       nil
     end
 
-    def make_student_folders(target_folder_input)
-      error("Must specify folder name!") unless target_folder_input
+    def make_student_folders(target_path)
+      error("Must specify folder name!") unless target_path
 
-      target_folder_name = target_folder_input.gsub(/[\s|\/]/,"")
+      target_folder_name = target_path.gsub(/[\s|\/]/,"")
       new_dir_path = "#{Dir.pwd}/#{target_folder_name}"
 
       begin
@@ -88,7 +104,7 @@ module Folgers
 
       puts "Making Student Folders"
 
-      @STUDENTS.each do |student|
+      @students.each do |student|
         # remove terminal white space and then replace internal spaces with underscores
         name = student['Name'].gsub(/ $|\n/,"").gsub(/^ /,"").gsub(/ +/,"_")
         email = student['Email']
@@ -121,9 +137,7 @@ module Folgers
       "Finished making #{new_dir_path}"
     end
 
-    def make_new_exercise
-      @target_path = get_target_path
-
+    def make_new_exercise(target_path)
       id = Time.now.to_i
 
       puts "enter the unit number (i.e. 3.14): "
@@ -142,7 +156,7 @@ module Folgers
       puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
       length = $stdin.gets.chomp
 
-      exercise_directory = "#{@target_path}/ex_#{id}"
+      exercise_directory = "#{target_path}/ex_#{id}"
 
       # assign learning object
       learning_objective = assign_learning_objective(unit)
@@ -203,19 +217,18 @@ module Folgers
 
       f.close
 
-      generate_index_file
+      generate_index_file(target_path)
     end
 
-    def make_new(resource)
-      return false if resource != "meta"
-      # TODO: support more types of resources
-
-      @target_path = Dir.pwd
+    def make_new(target_path, resource)
+      if resource != "meta"
+        error "Sorry, only the 'meta' resource type is supported right now."
+      end
 
       id = Time.now.to_i
 
       new_meta_file_path = [
-        @target_path,
+        target_path,
         "/meta.json"
       ].join("")
 
@@ -231,14 +244,12 @@ module Folgers
       return meta_hash
     end
 
-    def search_for_exercise query, attribute
-      @target_path = get_target_path()
-
+    def search_for_exercise(target_path, query, attribute)
       begin
-        f = File.open("#{@target_path}index.json", "rb")
+        f = File.open("#{target_path}index.json", "rb")
       rescue
-        generate_index_file
-        f = File.open("#{@target_path}index.json", "rb")
+        generate_index_file(target_path)
+        f = File.open("#{target_path}index.json", "rb")
       end
 
       index_json = f.read
@@ -246,10 +257,10 @@ module Folgers
       results = []
 
       index_array.each do |ex|
-        if (!@COLLECTION_KEYS.include? attribute.to_sym) &&
+        if (!COLLECTION_KEYS.include? attribute.to_sym) &&
           ex[attribute.to_s] == query
           results << ex
-        elsif (@COLLECTION_KEYS.include? attribute.to_sym) &&
+        elsif (COLLECTION_KEYS.include? attribute.to_sym) &&
           if query.class == String
             if ( ex[attribute.to_s] & query.split(/\,\s+/) != [] )
               results << ex
@@ -263,22 +274,18 @@ module Folgers
       end
 
       prompt_user_with("RESULTS!")
+
       results.each.with_index(1) do |result, index|
         puts "Choice \##{index}: #{result['title']}"
       end
 
       puts "\nFound #{results.length} matches for a(n) '#{attribute.to_s}' with '#{query}'.\n"
-
-      if search_results_prompt(results, query, attribute)
-        search_for_exercise()
-      end
     end
 
-    def generate_index_file
-      @target_path = get_target_path
+    def generate_index_file(target_path)
       exercises = []
 
-      Dir.glob("#{@target_path}ex_*").each do |file_path|
+      Dir.glob("#{target_path}ex_*").each do |file_path|
         file = File.open("#{file_path}/meta.json", "rb")
         file_json = file.read
         file_hash = JSON.parse(file_json)
@@ -286,89 +293,9 @@ module Folgers
         file.close
       end
 
-      index_file = File.open("#{@target_path}index.json", "w")
+      index_file = File.open("#{target_path}index.json", "w")
       index_file.puts JSON.pretty_generate(exercises)
       index_file.close
-    end
-
-    def get_target_path
-      unless @target_directory
-        instructor_repo = get_target_path_from_config
-
-        if instructor_repo
-          puts "\nYour .wdi/config says that your current instructor repo is:\n"
-          puts instructor_repo
-          puts "\nIs that also the location of your exercises? (y)es or (n)o"
-          choice = $stdin.gets.chomp
-          if choice == "y"
-            @target_directory = instructor_repo
-          else
-            puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
-            @target_directory = $stdin.gets.chomp
-          end
-        elsif @COMMAND_LINE_MODE
-          @target_directory = Dir.pwd
-        else
-          puts "\nYou seem to be running this script from:\n"
-          puts Dir.pwd
-          puts "\nIs that also the location of your exercises? (y)es or (n)o"
-          choice = $stdin.gets.chomp
-          if choice == "y"
-            @target_directory = Dir.pwd
-          else
-            puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
-            @target_directory = File.expand_path($stdin.gets.chomp)
-          end
-        end
-      end
-
-      if Dir[@target_directory] == []
-        Dir.mkdir(@target_directory)
-      end
-
-      @target_path = "#{@target_directory}#{@target_directory[-1] != '/' ? '/' : ''}"
-
-      return @target_path
-    end
-
-    def get_target_path_from_config
-      if File.exists? WDI_CONFIG_FILE
-        return JSON.parse(IO.read(File.expand_path(WDI_CONFIG_FILE)))["instructor_repos"]["current"]
-      else
-        return nil
-      end
-    end
-
-    def search_results_prompt(results, query, attribute)
-      puts <<-EOS.gsub(/^\s*/, "")
-        What do you want to do?
-
-        - you can type the choice number to open its readme
-        - type "q" to quit search mode.
-        #{ !@COMMAND_LINE_MODE ? '- type "s" to search again' : '' }
-      EOS
-
-      choice = $stdin.gets.chomp
-
-      case choice
-      when "q"
-        return false
-      when "s"
-        unless @COMMAND_LINE_MODE
-          return true
-        else
-          search_for_exercise
-        end
-      else
-        if results[choice.to_i-1]
-          system("open #{@target_path}ex_#{results[choice.to_i-1]['id']}/README.md")
-          system("open #{@target_path}ex_#{results[choice.to_i-1]['id']}")
-          search_results_prompt(results, nil, nil)
-        else
-          prompt_user_with("Invalid Choice!")
-          search_results_prompt(results, nil, nil)
-        end
-      end
     end
 
     def assign_learning_objective(unit)
@@ -380,8 +307,8 @@ module Folgers
     end
 
     def get_curriculum_meta(unit_num, lesson_num)
-      return {} if @CURRICULUM.empty?
-      @CURRICULUM["units"][unit_num]["lessons"].select do |lesson|
+      return {} if @curriculum.empty?
+      @curriculum["units"][unit_num]["lessons"].select do |lesson|
         lesson["number"] == "#{unit}.#{lesson_num}".to_f
       end.first()
     end
