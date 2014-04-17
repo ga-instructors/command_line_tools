@@ -1,3 +1,29 @@
 #!/usr/bin/env ruby
 
-require_relative '../folgers/folgers.rb'
+# modify the load path on-the-fly.
+# this lets us use conventional require statements (require 'folgers' etc.)
+# but we don't have to worry about how the user has installed the binary
+
+THIS_FILE_PATH = File.dirname(__FILE__)
+FOLGERS_LIB_PATH = File.expand_path("../folgers/lib", this_file_path)
+$LOAD_PATH.unshift FOLGERS_LIB_PATH
+
+require 'folgers'
+
+# $0 is the command used to run this file.
+# folgers-interactive is just a symlink to this file, so we don't have to
+# repeat all of the library loading above.
+# when someone runs "folgers", $0 will be "folgers"
+# when someone runs "folgers-interactive", $0 will be "folgers-interactive"
+
+case $0
+when /folgers$/
+    require 'folgers/ui/command_line'
+    Folgers::UI::CommandLine.run(ARGV)
+
+when /folgers-interactive$/
+    require 'folgers/ui/interactive'
+    Folgers::UI::Interactive.run()
+
+end
+
