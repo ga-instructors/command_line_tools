@@ -1,12 +1,15 @@
 require 'json'
-require 'pry'
+
+MAIN_MENU_FILE = "folgers/main_menu.txt"
+WDI_CONFIG_DIR = "~/.wdi"
+WDI_CONFIG_FILE = "#{WDI_CONFIG_DIR}/config.json"
+WDI_CURRICULUM_FILE = "#{WDI_CONFIG_DIR}/curriculum.json"
+WDI_STUDENTS_FILE = "#{WDI_CONFIG_DIR}/students.json"
 
 class Folgers
 
   def initialize
-
-    # GLOBALS
-    @COLLECTION_KEYS = [ :contributors, :languages, :authors, :tags]
+    @COLLECTION_KEYS = [:contributors, :languages, :authors, :tags]
     @COMMAND_LINE_MODE = false
     @ORIGINAL_OPTIONS = ARGV
 
@@ -33,76 +36,38 @@ class Folgers
         # TODO: Max must improve this
         puts test_student_files(ARGV.shift)
       end
-
     end
   end
 
   def set_curriculum
     begin
-      curriculum_file = File.open("#{ENV['HOME']}/.wdi/curriculum.json", "rb")
+      curriculum_file = File.open(WDI_CURRICULUM_FILE, "rb")
       @CURRICULUM = JSON.parse(curriculum_file.read)
     rescue
-      prompt_user_with("No ~/.wdi/curriculum.json found!  Certain features may not work")
+      prompt_user_with("No #{WDI_CURRICULUM_FILE} found!  Certain features may not work")
       @CURRICULUM = []
     end
   end
 
   def set_student_roster
     begin
-      student_roster_file = File.open("#{ENV['HOME']}/.wdi/students.json", "rb")
+      student_roster_file = File.open(WDI_STUDENTS_FILE, "rb")
       @STUDENTS = JSON.parse(student_roster_file.read)
     rescue
-      prompt_user_with("No ~/.wdi/students.json found!  Certain features may not work")
+      prompt_user_with("No #{WDI_STUDENTS_FILE} found!  Certain features may not work")
       @STUDENTS = []
     end
   end
 
   def main_menu
-    puts <<-EOS
+    print File.read(MAIN_MENU_FILE)
 
-
-
-
-                 {
-              {   }
-               }_{ __{
-            .-{   }   }-.
-           (   }     {   )
-           |`-.._____..-'|
-           |             ;---.
-           |             (__  \\
-           |             |  )  )
-           |             | /  /
-           |             |/  /
-           |             (  /
-           \\              |'
-            `-.._____..-'
-    __       _
-   / _| ___ | | __ _  ___ _ __ ___
-  | |_ / _ \\| |/ _` |/ _ \\ '__/ __|
-  |  _| (_) | | (_| |  __/ |  \\__ \\
-  |_|  \\___/|_|\\__, |\\___|_|  |___/
-               |___/
-
-      What would you like to do?
-
-      1. make new exercise
-      2. find an exercise
-      3. generate index JSON
-      4. make student folders
-      5. quit
-
-  EOS
     choice = $stdin.gets.chomp.to_i
     case choice
       when 1
         make_new_exercise
         system("clear")
-        puts <<-EOS
-  ================================
-  ===== Created Successfully! ====
-  ================================
-  EOS
+        prompt_user_with("Created Successfully!")
         main_menu
       when 2
         search_for_exercise
@@ -119,11 +84,7 @@ class Folgers
         system("clear")
       else
         system("clear")
-        puts <<-EOS.gsub(/^\s*/, "")
-        ======================================
-        ===== PLEASE ENTER A VALID OPTION ====
-        ======================================
-        EOS
+        prompt_user_with("PLEASE ENTER A VALID OPTION")
         main_menu
     end
   end
@@ -145,12 +106,10 @@ class Folgers
       end
     end
     puts "="*20
-    fails.each do |fail|
-      puts "#{fail} failed!"
+    fails.each do |failed|
+      puts "#{failed} failed!"
     end
     puts "="*20
-    # Max's one-liner
-    # system("for spec_file in $(ls ./*/*_spec.rb); do echo \"\n\nChecking ($spec_file)\"; rspec $spec_file; done")
   end
 
   def distribute_to_students(source)
@@ -161,7 +120,6 @@ class Folgers
       assignment_dir = source.gsub(/[^A-Za-z0-9\s]/,"")
     end
     source_dir = "#{Dir.pwd}/#{assignment_dir}"
-    # puts "source: #{source_dir}"
 
     # directories to ignore when distributing a file
     ignored_files = [ assignment_dir, "INSTRUCTORS", "Readme.md" ]
@@ -180,7 +138,9 @@ class Folgers
       puts "What is the name of the student folder? (i.e. d01)"
       target_folder_input = gets.chomp
     end
+
     return prompt_user_with("Must specify folder name!") unless target_folder_input
+
     target_folder_name = target_folder_input.gsub(/[\s|\/]/,"")
     new_dir_path = "#{Dir.pwd}/#{target_folder_name}"
 
@@ -191,7 +151,9 @@ class Folgers
         return
       end
     end
+
     puts "Making Student Folders"
+
     @STUDENTS.each do |student|
       # remove terminal white space and then replace internal spaces with underscores
       name = student['Name'].gsub(/ $|\n/,"").gsub(/^ /,"").gsub(/ +/,"_")
@@ -207,11 +169,13 @@ class Folgers
     end
 
     puts "Making INSTRUCTORS Folder"
+
     Dir.mkdir("#{new_dir_path}/INSTRUCTORS")
     instructor_gitkeep = File.open("#{new_dir_path}/INSTRUCTORS/.gitkeep", "w")
     instructor_gitkeep.close
 
     puts "Making ASSIGNMENT_FILES Folder"
+
     Dir.mkdir("#{new_dir_path}/ASSIGNMENT_FILES")
     assignment_files_gitkeep = File.open("#{new_dir_path}/ASSIGNMENT_FILES/.gitkeep", "w")
     assignment_files_gitkeep.close
@@ -240,8 +204,6 @@ class Folgers
     authors = $stdin.gets.chomp.split(/\,\s+/)
     puts "enter tags (separated by spaces): "
     tags = $stdin.gets.chomp.split(/\s+/)
-    # puts "enter difficulty level (1-10, 10 being hardest): "
-    # level = $stdin.gets.chomp.to_i
 
     puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
     length = $stdin.gets.chomp
@@ -265,28 +227,29 @@ class Folgers
     gitkeep2 = File.open("#{exercise_directory}/starters/.gitkeep", "w")
     gitkeep2.close
 
-    readme_string = <<-EOS
-  \##{title}
+    readme_string = <<-EOS.gsub(/^\s*/, "")
+      \##{title}
 
-  \#\#\#Learning Objective:
-  #{learning_objective}
+      \#\#\#Learning Objective:
+      #{learning_objective}
 
-  \#\#\#Overview:
+      \#\#\#Overview:
 
-  \#\#\#Spec:
-  EOS
+      \#\#\#Spec:
+    EOS
 
     readme = File.open([
-        exercise_directory,
-        "/README.md"
-      ].join(""),"w" )
+      exercise_directory,
+      "/README.md"
+    ].join(""),"w" )
+
     readme.puts readme_string
     readme.close
 
     new_meta_file_path = [
-        exercise_directory,
-        "/meta.json"
-        ].join("")
+      exercise_directory,
+      "/meta.json"
+    ].join("")
 
     f = File.open(new_meta_file_path, "w")
 
@@ -310,18 +273,17 @@ class Folgers
   end
 
   def make_new(resource)
-
-    # TODO: support more types of resources
     return false if resource != "meta"
+    # TODO: support more types of resources
 
     @target_path = Dir.pwd
 
     id = Time.now.to_i
 
     new_meta_file_path = [
-        @target_path,
-        "/meta.json"
-        ].join("")
+      @target_path,
+      "/meta.json"
+    ].join("")
 
     f = File.open(new_meta_file_path, "w")
 
@@ -329,7 +291,6 @@ class Folgers
     meta_hash = parse_argv(ARGV)
     meta_hash["id"] = id
 
-    # binding.pry
     f.puts JSON.pretty_generate(meta_hash)
 
     f.close
@@ -337,16 +298,13 @@ class Folgers
   end
 
   def search_for_exercise
-
     unless @COMMAND_LINE_MODE
       attribute = get_attribute_of_exercise
 
       puts "enter your search query:"
       query = $stdin.gets.chomp
     else
-      # attribute_query_string = ARGV.shift
       hash = parse_argv(@ORIGINAL_OPTIONS)
-      # binding.pry
       if hash.keys[0]
         attribute = hash.keys[0].to_sym
         query = hash.values[0]
@@ -354,21 +312,22 @@ class Folgers
         attribute = ""
         query = ""
       end
-      # binding.pry
     end
-    # binding.pry
+
     query = query
     @target_path = get_target_path
-      # binding.pry
+
     begin
       f = File.open("#{@target_path}index.json", "rb")
     rescue
       generate_index_file
       f = File.open("#{@target_path}index.json", "rb")
     end
+
     index_json = f.read
     index_array = JSON.parse(index_json)
     results = []
+
     index_array.each do |ex|
       if (!@COLLECTION_KEYS.include? attribute.to_sym) &&
         ex[attribute.to_s] == query
@@ -385,21 +344,23 @@ class Folgers
         end
       end
     end
-    # binding.pry
+
     prompt_user_with("RESULTS!")
     results.each.with_index(1) do |result, index|
       puts "Choice \##{index}: #{result['title']}"
     end
+
     puts "\nFound #{results.length} matches for a(n) '#{attribute.to_s}' with '#{query}'.\n"
+
     if search_results_prompt(results, query, attribute)
       search_for_exercise
     end
-
   end
 
   def generate_index_file
     @target_path = get_target_path
     exercises = []
+
     Dir.glob("#{@target_path}ex_*").each do |file_path|
       file = File.open("#{file_path}/meta.json", "rb")
       file_json = file.read
@@ -407,17 +368,15 @@ class Folgers
       exercises.push(file_hash)
       file.close
     end
+
     index_file = File.open("#{@target_path}index.json", "w")
     index_file.puts JSON.pretty_generate(exercises)
     index_file.close
   end
 
   def get_target_path
-
     unless @target_directory
-      # PJ: do a quick search for the .wdi/config.json -- if found suggest that
-      instructor_repo = get_target_path_from_config if File.exists?(File.expand_path("~/.wdi/config.json"))
-
+      instructor_repo = get_target_path_from_config
 
       if instructor_repo
         puts "\nYour .wdi/config says that your current instructor repo is:\n"
@@ -443,24 +402,29 @@ class Folgers
           puts "\nWhat is the path of your exercises directory (NO RELATIVE PATHS)?:"
           @target_directory = File.expand_path($stdin.gets.chomp)
         end
-      # for@command_line_mode
       end
-
     end
+
     if Dir[@target_directory] == []
       Dir.mkdir(@target_directory)
     end
 
     @target_path = "#{@target_directory}#{@target_directory[-1] != '/' ? '/' : ''}"
+
     return @target_path
   end
 
   def get_target_path_from_config
-    JSON.parse(IO.read(File.expand_path("~/.wdi/config.json")))["instructor_repos"]["current"]
+    if File.exists? WDI_CONFIG_FILE
+      return JSON.parse(IO.read(File.expand_path(WDI_CONFIG_FILE)))["instructor_repos"]["current"]
+    else
+      return nil
+    end
   end
 
   def get_attribute_of_exercise
     puts "What exercise attribute do you want to search by?"
+
     puts <<-EOS
         1. id
         2. language
@@ -471,42 +435,39 @@ class Folgers
         7. unit
         8. lesson_name
     EOS
+
     choice = $stdin.gets.chomp.to_i
-    case choice
-    when 1
-      attribute = :id
-    when 2
-      attribute = :language
-    when 3
-      attribute = :tags
-    when 4
-      attribute = :authors
-    when 5
-      attribute = :level
-    when 6
-      attribute = :length
-    when 7
-      attribute = :unit
-    when 8
-      attribute = :lesson_name
-    else
+
+    attribute = {
+      1 => :id,
+      2 => :language,
+      3 => :tags,
+      4 => :authors,
+      5 => :level,
+      6 => :length,
+      7 => :unit,
+      8 => :lesson_name
+    }[choice]
+
+    if attribute.nil?
       prompt_user_with("Please enter valid attribute!")
-      attribute = get_attribute_of_exercise
+      return get_attribute_of_exercise()
+    else
+      return attribute
     end
-    return attribute
   end
 
   def search_results_prompt(results, query, attribute)
-    puts <<-EOS
+    puts <<-EOS.gsub(/^\s*/, "")
+      What do you want to do?
 
-  What do you want to do?
-
-  - you can type the choice number to open its readme
-  - type "q" to quit search mode.
-  #{ !@COMMAND_LINE_MODE ? '- type "s" to search again' : '' }
-
+      - you can type the choice number to open its readme
+      - type "q" to quit search mode.
+      #{ !@COMMAND_LINE_MODE ? '- type "s" to search again' : '' }
     EOS
+
     choice = $stdin.gets.chomp
+
     case choice
     when "q"
       return false
@@ -529,16 +490,18 @@ class Folgers
   end
 
   def assign_learning_objective(unit)
-    return "" if @CURRICULUM.empty?
     unit_array = unit.split(".")
     unit_num = unit_array[0].to_i
     lesson_num = unit_array[1].to_i
-    curriculum_meta = @CURRICULUM["units"][unit_num]["lessons"].select { |lesson| lesson["number"] == "#{unit}.#{lesson_num}".to_f }.first
-    if curriculum_meta
-      return curriculum_meta["learning_objective"]
-    else
-      return ""
-    end
+    curriculum_meta = get_curriculum_meta(unit_num, lesson_num)
+    return curriculum_meta["learning_objective"] || ""
+  end
+
+  def get_curriculum_meta(unit_num, lesson_num)
+    return {} if @CURRICULUM.empty?
+    @CURRICULUM["units"][unit_num]["lessons"].select do |lesson|
+      lesson["number"] == "#{unit}.#{lesson_num}".to_f
+    end.first()
   end
 
   def parse_argv(arguments)
@@ -558,13 +521,17 @@ class Folgers
   end
 
   def prompt_user_with(message)
-    puts <<-EOS
-  ***************************
-  #{message}
-  ***************************
+    delimiter = "=" * message.size
+
+    puts <<-EOS.gsub(/^\s*/, "")
+    #{delimiter}
+    #{message}
+    #{delimiter}
     EOS
   end
 
 end
 
 Folgers.new
+
+# vim: set sw=2 sts=2:
