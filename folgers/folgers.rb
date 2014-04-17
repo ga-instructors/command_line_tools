@@ -1,7 +1,7 @@
 require 'json'
 
 MAIN_MENU_FILE = "folgers/main_menu.txt"
-WDI_CONFIG_DIR = "~/.wdi"
+WDI_CONFIG_DIR = "#{ENV['HOME']}/.wdi"
 WDI_CONFIG_FILE = "#{WDI_CONFIG_DIR}/config.json"
 WDI_CURRICULUM_FILE = "#{WDI_CONFIG_DIR}/curriculum.json"
 WDI_STUDENTS_FILE = "#{WDI_CONFIG_DIR}/students.json"
@@ -41,7 +41,7 @@ class Folgers
 
   def try_load_file filename
     if File.exists? filename
-      return File.open(WDI_STUDENTS_FILE, "rb")
+      return File.open(filename, "rb")
     else
       prompt_user_with("No #{filename} found! Certain features may not work.")
       return []
