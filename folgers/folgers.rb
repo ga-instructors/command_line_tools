@@ -29,6 +29,9 @@ class Folgers
       elsif (option == "s" || option == "search")
         puts "Finding"
         search_for_exercise
+      elsif (option == "t" || option == "test")
+        # TODO: Max must improve this
+        system("for spec_file in $(ls ./*/*_spec.rb); do echo \"\n\nChecking ($spec_file)\"; rspec $spec_file; done")
       end
 
     end
