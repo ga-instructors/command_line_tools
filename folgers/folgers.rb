@@ -1,12 +1,16 @@
 require 'json'
 require 'pry'
 
+MAIN_MENU_FILE = "folgers/main_menu.txt"
+WDI_CONFIG_DIR = "~/.wdi"
+WDI_CONFIG_FILE = "#{WDI_CONFIG_DIR}/config.json"
+WDI_CURRICULUM_FILE = "#{WDI_CONFIG_DIR}/curriculum.json"
+WDI_STUDENTS_FILE = "#{WDI_CONFIG_DIR}/students.json"
+
 class Folgers
 
   def initialize
-
-    # GLOBALS
-    @COLLECTION_KEYS = [ :contributors, :languages, :authors, :tags]
+    @COLLECTION_KEYS = [:contributors, :languages, :authors, :tags]
     @COMMAND_LINE_MODE = false
     @ORIGINAL_OPTIONS = ARGV
 
@@ -33,76 +37,38 @@ class Folgers
         # TODO: Max must improve this
         puts test_student_files(ARGV.shift)
       end
-
     end
   end
 
   def set_curriculum
     begin
-      curriculum_file = File.open("#{ENV['HOME']}/.wdi/curriculum.json", "rb")
+      curriculum_file = File.open(WDI_CURRICULUM_FILE, "rb")
       @CURRICULUM = JSON.parse(curriculum_file.read)
     rescue
-      prompt_user_with("No ~/.wdi/curriculum.json found!  Certain features may not work")
+      prompt_user_with("No #{WDI_CURRICULUM_FILE} found!  Certain features may not work")
       @CURRICULUM = []
     end
   end
 
   def set_student_roster
     begin
-      student_roster_file = File.open("#{ENV['HOME']}/.wdi/students.json", "rb")
+      student_roster_file = File.open(WDI_STUDENTS_FILE, "rb")
       @STUDENTS = JSON.parse(student_roster_file.read)
     rescue
-      prompt_user_with("No ~/.wdi/students.json found!  Certain features may not work")
+      prompt_user_with("No #{WDI_STUDENTS_FILE} found!  Certain features may not work")
       @STUDENTS = []
     end
   end
 
   def main_menu
-    puts <<-EOS
+    print File.read(MAIN_MENU_FILE)
 
-
-
-
-                 {
-              {   }
-               }_{ __{
-            .-{   }   }-.
-           (   }     {   )
-           |`-.._____..-'|
-           |             ;---.
-           |             (__  \\
-           |             |  )  )
-           |             | /  /
-           |             |/  /
-           |             (  /
-           \\              |'
-            `-.._____..-'
-    __       _
-   / _| ___ | | __ _  ___ _ __ ___
-  | |_ / _ \\| |/ _` |/ _ \\ '__/ __|
-  |  _| (_) | | (_| |  __/ |  \\__ \\
-  |_|  \\___/|_|\\__, |\\___|_|  |___/
-               |___/
-
-      What would you like to do?
-
-      1. make new exercise
-      2. find an exercise
-      3. generate index JSON
-      4. make student folders
-      5. quit
-
-  EOS
     choice = $stdin.gets.chomp.to_i
     case choice
       when 1
         make_new_exercise
         system("clear")
-        puts <<-EOS
-  ================================
-  ===== Created Successfully! ====
-  ================================
-  EOS
+        prompt_user_with("Created Successfully!")
         main_menu
       when 2
         search_for_exercise
@@ -149,8 +115,6 @@ class Folgers
       puts "#{fail} failed!"
     end
     puts "="*20
-    # Max's one-liner
-    # system("for spec_file in $(ls ./*/*_spec.rb); do echo \"\n\nChecking ($spec_file)\"; rspec $spec_file; done")
   end
 
   def distribute_to_students(source)
@@ -265,16 +229,16 @@ class Folgers
     gitkeep2 = File.open("#{exercise_directory}/starters/.gitkeep", "w")
     gitkeep2.close
 
-    readme_string = <<-EOS
-  \##{title}
+    readme_string = <<-EOS.gsub(/^\s*/, "")
+      \##{title}
 
-  \#\#\#Learning Objective:
-  #{learning_objective}
+      \#\#\#Learning Objective:
+      #{learning_objective}
 
-  \#\#\#Overview:
+      \#\#\#Overview:
 
-  \#\#\#Spec:
-  EOS
+      \#\#\#Spec:
+    EOS
 
     readme = File.open([
         exercise_directory,
@@ -310,9 +274,8 @@ class Folgers
   end
 
   def make_new(resource)
-
-    # TODO: support more types of resources
     return false if resource != "meta"
+    # TODO: support more types of resources
 
     @target_path = Dir.pwd
 
@@ -337,7 +300,6 @@ class Folgers
   end
 
   def search_for_exercise
-
     unless @COMMAND_LINE_MODE
       attribute = get_attribute_of_exercise
 
@@ -394,7 +356,6 @@ class Folgers
     if search_results_prompt(results, query, attribute)
       search_for_exercise
     end
-
   end
 
   def generate_index_file
@@ -413,11 +374,8 @@ class Folgers
   end
 
   def get_target_path
-
     unless @target_directory
-      # PJ: do a quick search for the .wdi/config.json -- if found suggest that
-      instructor_repo = get_target_path_from_config if File.exists?(File.expand_path("~/.wdi/config.json"))
-
+      instructor_repo = get_target_path_from_config
 
       if instructor_repo
         puts "\nYour .wdi/config says that your current instructor repo is:\n"
@@ -456,7 +414,11 @@ class Folgers
   end
 
   def get_target_path_from_config
-    JSON.parse(IO.read(File.expand_path("~/.wdi/config.json")))["instructor_repos"]["current"]
+    if File.exists? WDI_CONFIG_FILE
+      return JSON.parse(IO.read(File.expand_path(WDI_CONFIG_FILE)))["instructor_repos"]["current"]
+    else
+      return nil
+    end
   end
 
   def get_attribute_of_exercise
@@ -497,15 +459,14 @@ class Folgers
   end
 
   def search_results_prompt(results, query, attribute)
-    puts <<-EOS
+    puts <<-EOS.gsub(/^\s*/, "")
+      What do you want to do?
 
-  What do you want to do?
-
-  - you can type the choice number to open its readme
-  - type "q" to quit search mode.
-  #{ !@COMMAND_LINE_MODE ? '- type "s" to search again' : '' }
-
+      - you can type the choice number to open its readme
+      - type "q" to quit search mode.
+      #{ !@COMMAND_LINE_MODE ? '- type "s" to search again' : '' }
     EOS
+
     choice = $stdin.gets.chomp
     case choice
     when "q"
@@ -558,13 +519,17 @@ class Folgers
   end
 
   def prompt_user_with(message)
-    puts <<-EOS
-  ***************************
-  #{message}
-  ***************************
+    delimiter = "=" * message.size
+
+    puts <<-EOS.gsub(/^\s*/, "")
+    #{delimiter}
+    #{message}
+    #{delimiter}
     EOS
   end
 
 end
 
 Folgers.new
+
+# vim: set sw=2 sts=2:
