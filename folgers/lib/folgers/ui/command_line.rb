@@ -2,33 +2,37 @@ require 'folgers/ui'
 
 module Folgers::UI
 
-  module CommandLine
+  class CommandLine
 
-    def self.run folgers, argv
-      result = parse_arguments(folgers, argv)
+    def initialize(folgers)
+      @folgers = folgers
+    end
+
+    def run(argv)
+      result = parse_arguments(argv)
       puts results
     end
 
-    def self.parse_arguments folgers, argv
+    def parse_arguments argv
       target_folder = Dir.pwd
 
       if (option == "g" || option == "generate")
         resource_type = argv.shift
-        folgers.make_new(target_folder, resource_type)
+        @folgers.make_new(target_folder, resource_type)
 
       elsif (option == "f" || option == "folders")
-        folgers.make_student_folders(target_folder)
+        @folgers.make_student_folders(target_folder)
 
       elsif (option == "d" || option == "distribute")
-        folgers.distribute_to_students(argv.shift)
+        @folgers.distribute_to_students(argv.shift)
 
       elsif (option == "s" || option == "search")
         query = argv.shift
         attribute = argv.shift
-        folgers.search_for_exercise(target_path, query, attribute)
+        @folgers.search_for_exercise(target_path, query, attribute)
 
       elsif (option == "t" || option == "test")
-        folgers.test_student_files(argv.shift)
+        @folgers.test_student_files(argv.shift)
 
       end
     end
@@ -43,7 +47,7 @@ module Folgers::UI
         query = ""
       end
 
-      folgers.search_for_exercise(query, attribute)
+      @folgers.search_for_exercise(query, attribute)
     end
 
     def parse_argv(arguments)

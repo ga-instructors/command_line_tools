@@ -137,25 +137,7 @@ module Folgers
       "Finished making #{new_dir_path}"
     end
 
-    def make_new_exercise(target_path)
-      id = Time.now.to_i
-
-      puts "enter the unit number (i.e. 3.14): "
-      unit = $stdin.gets.chomp
-      puts "enter the lesson name (i.e. HTML and AJAX): "
-      lesson_name = $stdin.gets.chomp
-      puts "enter the title: "
-      title = $stdin.gets.chomp
-      puts "enter the language: "
-      language = $stdin.gets.chomp
-      puts "enter the author(s) (i.e. firstname lastname separated by commas): "
-      authors = $stdin.gets.chomp.split(/\,\s+/)
-      puts "enter tags (separated by spaces): "
-      tags = $stdin.gets.chomp.split(/\s+/)
-
-      puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
-      length = $stdin.gets.chomp
-
+    def make_new_exercise(target_path, id, unit, lesson_name, title, language, authors, tags, length)
       exercise_directory = "#{target_path}/ex_#{id}"
 
       # assign learning object

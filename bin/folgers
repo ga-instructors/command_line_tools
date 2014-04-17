@@ -21,11 +21,11 @@ f = Folgers::Folgers.new
 case $0
 when /folgers$/
     require 'folgers/ui/command_line'
-    Folgers::UI::CommandLine.run(f, ARGV)
+    Folgers::UI::CommandLine.new(f).run(ARGV)
 
 when /folgers-interactive$/
     require 'folgers/ui/interactive'
-    Folgers::UI::Interactive.run(f)
+    Folgers::UI::Interactive.new(f).run
 
 end
 

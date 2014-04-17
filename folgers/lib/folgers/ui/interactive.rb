@@ -4,35 +4,38 @@ MAIN_MENU_FILE = File.expand_path("../main_menu.txt", __FILE__)
 
 module Folgers::UI
 
-  module Interactive
+  class Interactive
 
-    def self.run(folgers)
+    def initialize(folgers)
+      @folgers = folgers
+    end
+
+    def run
       choice = nil
 
       while choice != 5
         print_menu
-        choice = $stdin.gets.chomp.to_i
-        next_prompt = do_folgers(folgers, choice)
+        next_prompt = do_folgers($stdin.gets.chomp.to_i)
         system("clear")
         prompt_user_with(next_prompt) if next_prompt
       end
     end
 
-    def self.print_menu
+    def print_menu
       print File.read(MAIN_MENU_FILE)
     end
 
-    def self.do_folgers folgers, choice
+    def do_folgers choice
       case choice
       when 1
-        folgers.make_new_exercise(get_target_path(folgers))
+        make_new_exercise
         return "Created successfully!"
       when 2
-        search_for_exercise(folgers)
+        search_for_exercise
       when 3
-        folgers.generate_index_file
+        @folgers.generate_index_file
       when 4
-        make_student_folders(folgers)
+        make_student_folders
       else
         return "PLEASE ENTER A VALID OPTION"
       end
@@ -40,29 +43,52 @@ module Folgers::UI
       return nil
     end
 
-    def self.prompt_user_with message
+    def prompt_user_with message
       Folgers::UI.prompt_user_with message
     end
 
-    def self.make_student_folders folgers
+    def make_new_exercise
+      id = Time.now.to_i
+      target_path = get_target_path
+
+      puts "enter the unit number (i.e. 3.14): "
+      unit = $stdin.gets.chomp
+      puts "enter the lesson name (i.e. HTML and AJAX): "
+      lesson_name = $stdin.gets.chomp
+      puts "enter the title: "
+      title = $stdin.gets.chomp
+      puts "enter the language: "
+      language = $stdin.gets.chomp
+      puts "enter the author(s) (i.e. firstname lastname separated by commas): "
+      authors = $stdin.gets.chomp.split(/\,\s+/)
+      puts "enter tags (separated by spaces): "
+      tags = $stdin.gets.chomp.split(/\s+/)
+
+      puts "enter the length of the exercise (i.e. 'short', 'long', 'drill'): "
+      length = $stdin.gets.chomp
+
+      @folgers.make_new_exercise(target_path, id, unit, lesson_name, title, language, authors, tags, length)
+    end
+
+    def make_student_folders
       puts "What is the name of the student folder? (i.e. d01)"
       target_folder = gets.chomp
 
-      folgers.make_student_folders(target_folder)
+      @folgers.make_student_folders(target_folder)
     end
 
-    def self.search_for_exercise folgers
+    def search_for_exercise
       attribute = get_attribute_of_exercise()
-      target_path = get_target_path(folgers)
+      target_path = get_target_path
 
       puts "enter your search query:"
       query = $stdin.gets.chomp
 
-      search_until_user_quits(folgers, target_path, query, attribute)
+      search_until_user_quits(target_path, query, attribute)
     end
 
-    def self.search_until_user_quits(folgers, target_path, query, attribute)
-      results = folgers.search_for_exercise(target_path, query, attribute)
+    def search_until_user_quits(target_path, query, attribute)
+      results = @folgers.search_for_exercise(target_path, query, attribute)
 
       return false if !results
 
@@ -71,7 +97,7 @@ module Folgers::UI
       end
     end
 
-    def self.search_results_prompt(target_path, results)
+    def search_results_prompt(target_path, results)
       puts <<-EOS.gsub(/^\s*/, "")
         What do you want to do?
 
@@ -98,7 +124,7 @@ module Folgers::UI
       end
     end
 
-    def self.get_attribute_of_exercise
+    def get_attribute_of_exercise
       puts "What exercise attribute do you want to search by?"
 
       puts <<-EOS
@@ -133,8 +159,8 @@ module Folgers::UI
       end
     end
 
-    def self.get_target_path folgers
-      instructor_repo = folgers.current_instructor_repo
+    def get_target_path
+      instructor_repo = @folgers.current_instructor_repo
 
       if instructor_repo
         puts "\nYour .wdi/config says that your current instructor repo is:\n"
