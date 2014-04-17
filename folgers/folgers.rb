@@ -1,7 +1,7 @@
 require 'json'
 
-MAIN_MENU_FILE = "folgers/main_menu.txt"
-WDI_CONFIG_DIR = "~/.wdi"
+MAIN_MENU_FILE = "#{File.dirname(__FILE__)}/main_menu.txt"
+WDI_CONFIG_DIR = File.expand_path("~/.wdi")
 WDI_CONFIG_FILE = "#{WDI_CONFIG_DIR}/config.json"
 WDI_CURRICULUM_FILE = "#{WDI_CONFIG_DIR}/curriculum.json"
 WDI_STUDENTS_FILE = "#{WDI_CONFIG_DIR}/students.json"
