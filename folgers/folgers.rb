@@ -81,7 +81,8 @@ class Folgers
   def test_student_files(options=nil)
     valid_options = ["v", "-v", "verbose"]
     fails = []
-    Dir.glob("./*/spec/*_spec.rb").each do |file|
+    # expects students to have their tests in /Student_Name/assignment_name/spec
+    Dir.glob("./*/*/spec/*_spec.rb").each do |file|
       unless valid_options.include? options
         `rspec #{file}`
         successful = $?
