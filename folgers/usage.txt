@@ -1,0 +1,28 @@
+  __       _
+ / _| ___ | | __ _  ___ _ __ ___
+| |_ / _ \| |/ _` |/ _ \ '__/ __|
+|  _| (_) | | (_| |  __/ |  \__ \
+|_|  \___/|_|\__, |\___|_|  |___/
+             |___/
+
+Usage:
+  folgers                             # WDI instructor toolbelt
+
+Options:
+
+  f, folders [STUDENT_FOLDER_NAME]    # makes student folders inside of
+                                      # the STUDENT_FOLDER_NAME directory
+                                      # for all ./~wdi/students.json students
+
+  d, distribute [ASSIGNMENT_SOURCE]   # copies ASSIGNMENT_SOURCE file or dir
+                                      # to all student's directories. Skips file(s)
+                                      # that are already present.
+
+  t, test [-v]                        # runs all spec files in ./Student_Name/spec/
+                                      # directories in sequence.  Prints names of
+                                      # of all failing test files.  Use -v flag
+                                      # to see results of individual tests.
+
+  g, generate [meta] attr:val         # generate a new exercise with meta.json.
+                                      # add attributes and values in the following # format: attr:val, attr2:val1,val2,
+                                      # attr3:val1

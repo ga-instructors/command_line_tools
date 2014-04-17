@@ -1,6 +1,7 @@
 require 'json'
 
 MAIN_MENU_FILE = "#{File.dirname(__FILE__)}/main_menu.txt"
+USAGE_FILE = "#{File.dirname(__FILE__)}/usage.txt"
 WDI_CONFIG_DIR = File.expand_path("~/.wdi")
 WDI_CONFIG_FILE = "#{WDI_CONFIG_DIR}/config.json"
 WDI_CURRICULUM_FILE = "#{WDI_CONFIG_DIR}/curriculum.json"
@@ -21,20 +22,20 @@ class Folgers
       main_menu
     else
       @COMMAND_LINE_MODE = true
-      puts "You chose: #{option}"
-      if (option == "g" || option == "generate")
+      if ["g", "generate", "-g"].include? option
         puts "Made: "
         puts make_new(ARGV.shift)
-      elsif (option == "f" || option == "folders")
+      elsif ["f","folders","-f"].include? option
         puts make_student_folders(ARGV.shift)
-      elsif (option == "d" || option == "distribute")
+      elsif ["d", "distribute"].include? option
         puts distribute_to_students(ARGV.shift)
-      elsif (option == "s" || option == "search")
+      elsif ["s","search"].include? option
         puts "Finding"
         search_for_exercise
-      elsif (option == "t" || option == "test")
-        # TODO: Max must improve this
+      elsif ["t", "test"].include? option
         puts test_student_files(ARGV.shift)
+      elsif ["-h", "help", "h"].include? option
+        print File.read(USAGE_FILE)
       end
     end
   end
@@ -76,6 +77,10 @@ class Folgers
         prompt_user_with("PLEASE ENTER A VALID OPTION")
         main_menu
     end
+  end
+
+  def show_usage
+    print File.read(MAIN_MENU_FILE)
   end
 
   def test_student_files(options=nil)
