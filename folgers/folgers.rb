@@ -31,7 +31,7 @@ class Folgers
         search_for_exercise
       elsif (option == "t" || option == "test")
         # TODO: Max must improve this
-        system("for spec_file in $(ls ./*/*_spec.rb); do echo \"\n\nChecking ($spec_file)\"; rspec $spec_file; done")
+        puts test_student_files(ARGV.shift)
       end
 
     end
@@ -119,13 +119,38 @@ class Folgers
         system("clear")
       else
         system("clear")
-        puts <<-EOS
-  ======================================
-  ===== PLEASE ENTER A VALID OPTION ====
-  ======================================
-  EOS
+        puts <<-EOS.gsub(/^\s*/, "")
+        ======================================
+        ===== PLEASE ENTER A VALID OPTION ====
+        ======================================
+        EOS
         main_menu
     end
+  end
+
+  def test_student_files(options=nil)
+    valid_options = ["v", "-v", "verbose"]
+    fails = []
+    Dir.glob("./*/*_spec.rb").each do |file|
+      unless valid_options.include? options
+        `rspec #{file}`
+        successful = $?
+        unless successful == 0
+          fails << file
+        end
+      else
+        unless system("rspec #{file}")
+          fails << file
+        end
+      end
+    end
+    puts "="*20
+    fails.each do |fail|
+      puts "#{fail} failed!"
+    end
+    puts "="*20
+    # Max's one-liner
+    # system("for spec_file in $(ls ./*/*_spec.rb); do echo \"\n\nChecking ($spec_file)\"; rspec $spec_file; done")
   end
 
   def distribute_to_students(source)
