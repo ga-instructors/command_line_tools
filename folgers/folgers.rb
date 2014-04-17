@@ -115,9 +115,15 @@ class Folgers
     ignored_files = [ assignment_dir, "INSTRUCTORS", "Readme.md" ]
 
     Dir.glob("*").each do |file|
-      unless ignored_files.include? file.to_s
-        system("cp -R #{assignment_dir}/* #{file}")
-        puts "Distributed #{assignment_dir} to #{file}"
+      if !(ignored_files.include? file.to_s) && Dir.exists?(file)
+        # only copies files that are not already present in student dir
+        # this avoids overwriting their work
+        files_present = Dir.entries(file) & Dir.entries(assignment_dir)
+        files_to_copy = Dir.entries(assignment_dir) - files_present
+        files_to_copy.each do |assignment_file|
+          system("cp -R #{assignment_dir}/#{assignment_file} #{file}")
+          puts "Distributed #{assignment_dir}/#{assignment_file} to #{file}"
+        end
       end
     end
     nil
@@ -143,10 +149,9 @@ class Folgers
     end
 
     puts "Making Student Folders"
-
-    @STUDENTS.each do |student|
+    JSON.parse(@STUDENTS.read).each do |student|
       # remove terminal white space and then replace internal spaces with underscores
-      name = student['Name'].gsub(/ $|\n/,"").gsub(/^ /,"").gsub(/ +/,"_")
+      name = student['Name'] ? student['Name'].gsub(/ $|\n/,"").gsub(/^ /,"").gsub(/ +/,"_") : ""
       email = student['Email']
       github = student['GitHub'] ? student['GitHub'].gsub(/ $/,"") : ""
       student_folder_path = "#{new_dir_path}/#{name}"
