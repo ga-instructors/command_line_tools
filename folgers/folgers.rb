@@ -14,8 +14,8 @@ class Folgers
     @COMMAND_LINE_MODE = false
     @ORIGINAL_OPTIONS = ARGV
 
-    @CURRICULUM = try_load_file(WDI_CURRICULUM_FILE)
-    @STUDENTS = try_load_file(WDI_STUDENTS_FILE)
+    @CURRICULUM = JSON.parse(try_load_file(WDI_CURRICULUM_FILE).read)
+    @STUDENTS = JSON.parse(try_load_file(WDI_STUDENTS_FILE).read)
 
     option = ARGV.shift
     if option.nil?
@@ -154,7 +154,7 @@ class Folgers
     end
 
     puts "Making Student Folders"
-    JSON.parse(@STUDENTS.read).each do |student|
+    @STUDENTS.each do |student|
       # remove terminal white space and then replace internal spaces with underscores
       name = student['Name'] ? student['Name'].gsub(/ $|\n/,"").gsub(/^ /,"").gsub(/ +/,"_") : ""
       email = student['Email']
@@ -500,7 +500,7 @@ class Folgers
   def get_curriculum_meta(unit_num, lesson_num)
     return {} if @CURRICULUM.empty?
     @CURRICULUM["units"][unit_num]["lessons"].select do |lesson|
-      lesson["number"] == "#{unit}.#{lesson_num}".to_f
+      lesson["number"] == "#{unit_num}.#{lesson_num}".to_f
     end.first()
   end
 
